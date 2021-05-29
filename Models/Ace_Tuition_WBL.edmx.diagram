@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dd723d953975409e8eb9d0e6a24beeaa" Name="Diagram1">
+      <Diagram DiagramId="4c25102cac504df88757082ba5663235" Name="Diagram1">
         <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tb_admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>

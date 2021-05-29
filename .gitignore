@@ -1,2 +1,19 @@
 
 Web.config
+.vs/Ace Tuition WBL/config/applicationhost.config
+.vs/Ace Tuition WBL/config/applicationhost.config
+.vs/Ace Tuition WBL/v16/.suo
+bin/Ace Tuition WBL.dll
+bin/Ace Tuition WBL.dll.config
+bin/Ace Tuition WBL.pdb
+Models/Ace_Tuition_WBL.Designer.cs
+Models/Ace_Tuition_WBL.edmx.diagram
+obj/Debug/Ace Tuition WBL.csproj.CoreCompileInputs.cache
+obj/Debug/Ace Tuition WBL.csproj.FileListAbsolute.txt
+obj/Debug/Ace Tuition WBL.csprojAssemblyReference.cache
+obj/Debug/Ace Tuition WBL.dll
+obj/Debug/Ace Tuition WBL.pdb
+obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+obj/Debug/TempPE/Models.Ace_Tuition_WBL.cs.dll
+obj/Debug/TempPE/Models.Ace_Tuition_WBL.Designer.cs.dll
+Web.config
