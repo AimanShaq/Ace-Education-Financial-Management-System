@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="dd723d953975409e8eb9d0e6a24beeaa" Name="Diagram1">
-        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tb_admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tb_admin" Width="1.5" PointX="2.875" PointY="0.875" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
