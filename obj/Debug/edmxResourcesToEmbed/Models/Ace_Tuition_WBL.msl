@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Ace_Tuition_WBLModelStoreContainer" CdmEntityContainer="Ace_Tuition_WBLEntities1">
+    <EntitySetMapping Name="tb_admin">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tb_admin">
+        <MappingFragment StoreEntitySet="tb_admin">
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+          <ScalarProperty Name="User_Password" ColumnName="User_Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

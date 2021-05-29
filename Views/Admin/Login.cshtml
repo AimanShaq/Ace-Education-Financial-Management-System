@@ -1,0 +1,36 @@
+﻿@model Ace_Tuition_WBL.Models.tb_admin
+@{
+    ViewBag.Title = "Login";
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="~/styles/style.css" rel="stylesheet" />
+    <!--web-fonts-->
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css' />
+    <!--web-fonts-->
+</head>
+<!--header-->
+<div class="header-w3l">
+    <h1> Admin Login Form</h1>
+</div>
+<!--//header-->
+<!--main-->
+<div class="main-content-agile">
+    <div class="sub-main-w3">
+        @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
+        {
+            <input placeholder="Name or E-mail" name="User_Id" class="user" type="text" required=""><br>
+            <input placeholder="Password" name="User_Password" class="pass" type="password" required=""><br>
+            <input type="submit" value="">
+        }
+
+        <!--<form action="Verify" method="post">
+        <input placeholder="Name or E-mail" name="User_Id" class="user" type="text" required=""><br>
+        <input placeholder="Password" name="User_Password" class="pass" type="password" required=""><br>
+        <input type="submit" value="">
+    </form>-->
+    </div>
+</div>
+<!--//main-->
