@@ -27,7 +27,7 @@ namespace Ace_Tuition_WBL.Controllers
         }*/
         public ActionResult Login(tb_admin log)
         {
-            var user = db.tb_admin.Where(x => x.User_Id == log.User_Id && x.User_Password == log.User_Password).Count();
+            //var user = db.tb_admin.Where(x => x.User_Id == log.User_Id && x.User_Password == log.User_Password).Count();
             var idcheck = db.tb_admin.FirstOrDefault(x => x.User_Id == log.User_Id);
 
             if (log.User_Id != null && idcheck != null)
