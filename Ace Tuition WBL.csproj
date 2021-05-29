@@ -162,7 +162,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Ace_Tuition_WBL.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\tb_admin.cs">
       <DependentUpon>Ace_Tuition_WBL.tt</DependentUpon>
     </Compile>
