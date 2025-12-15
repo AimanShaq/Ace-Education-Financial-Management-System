@@ -1,0 +1,50 @@
+﻿@model Ace_Tuition_WBL.Models.tbSubject
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete Subject</h2>
+<hr />
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectNames)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectNames)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CatID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CatID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectCodes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectCodes)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

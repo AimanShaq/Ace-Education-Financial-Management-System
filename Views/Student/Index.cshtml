@@ -1,0 +1,351 @@
+﻿@model Ace_Tuition_WBL.ViewModel.SubjectReg
+
+
+@{
+    ViewBag.Title = "Index";
+    if (Session["User_Id"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+    List<Ace_Tuition_WBL.Models.tbRegistration> listReg = db.tbRegistrations.ToList();
+
+    //Ace_Tuition_WBL.ViewModel.SubjectModel submodel = new Ace_Tuition_WBL.ViewModel.SubjectModel();
+}
+
+
+<div class="card">
+    <div class="card-header bg-success">
+        <h3 class="card-title">Student List</h3>
+        @*<p align="right">
+                @Html.ActionLink("Create New", "Create")
+            </p>*@
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Student IC No.
+                    </th>
+                    <th>Student Name</th>
+                    <th>Category</th>
+
+                    <th>Subject Count</th>
+                    <th>Subject List</th>
+                    <th>Writing Class</th>
+                    <th>Transportation</th>
+                    <th>Childcare</th>
+                    <th>Meal</th>
+                    <th>Manage</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.StudentgetList.Where(item => item.StudentStatus == 1))
+                {
+
+                    //Where(x => x.StudentID == item.StudentID);
+                    //db.tbRegistrations.Where(x => x.StudentID == item.StudentID);
+
+                    //submodel = submodel.Subjectlist.Where(x => x.StudentID == item.StudentID);
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentIC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentName)
+                        </td>
+                        <td>
+                            @if (item.StudentCat == 1 && item.StudentStandard == 1)
+                            {
+                                <p>Standard 1</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 2)
+                            {
+                                <p>Standard 2</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 3)
+                            {
+                                <p>Standard 3</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 4)
+                            {
+                                <p>Standard 4</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 5)
+                            {
+                                <p>Standard 5</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 6)
+                            {
+                                <p>Standard 6</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 1)
+                            {
+                                <p>Form 1</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 2)
+                            {
+                                <p>Form 2</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 3)
+                            {
+                                <p>Form 3</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 4)
+                            {
+                                <p>Form 4</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 5)
+                            {
+                                <p>Form 5</p>
+                            }
+
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.subjCount)*@
+                            @listReg.Count(x => x.StudentID == item.StudentID)
+
+                        </td>
+                        <td>
+                            @foreach (var itemlol in Model.RegistrationList.Where(x => x.StudentID == item.StudentID))
+                            {
+                                <span>@Html.DisplayFor(mitem => itemlol.SubjectCode) &nbsp; </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.writingStat == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.transDPW == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.ccStat == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.mealStat == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        @{
+                            Ace_Tuition_WBL.Models.tbReceipt rec = db.tbReceipts.Where(x => x.StudentID == item.StudentID).FirstOrDefault();
+                        }
+                        <td>
+                            @Html.ActionLink("Register Subject", "EditReg", new { id = item.StudentID }, new { @class = "btn btn-success" }) |
+                            @*@Html.ActionLink("Payment Details", "../Payment/Details", new { id = rec.ReceiptID }, new { @class = "btn btn-warning" }) |*@
+                            @Html.ActionLink("Set Inactive", "Status", new { id = item.StudentID, stat = 0 }, new { @class = "btn btn-danger" })
+                            @*@Html.ActionLink("Delete", "DeleteReg", new { id = item.StudentID }, new { @class = "btn btn-danger" })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @*@foreach (var itemx in Model.RegistrationList){
+                Html.DisplayFor(mitem=> itemx.SubjectCode);
+            }*@
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-warning">
+        <h3 class="card-title">Inactive Student List</h3>
+        @*<p align="right">
+                @Html.ActionLink("Create New", "Create")
+            </p>*@
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example2" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Student IC No.</th>
+                    <th>Student Name</th>
+                    <th>Category</th>
+                    <th>Subject Count</th>
+                    <th>Subject List</th>
+                    <th>Writing Class</th>
+                    <th>Transportation</th>
+                    <th>Childcare</th>
+                    <th>Meal</th>
+                    <th>Manage</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.StudentgetList.Where(item => item.StudentStatus == 0))
+                {
+
+                    //Where(x => x.StudentID == item.StudentID);
+                    //db.tbRegistrations.Where(x => x.StudentID == item.StudentID);
+
+                    //submodel = submodel.Subjectlist.Where(x => x.StudentID == item.StudentID);
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentIC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentName)
+                        </td>
+                        <td>
+                            @if (item.StudentCat == 1 && item.StudentStandard == 1)
+                            {
+                                <p>Standard 1</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 2)
+                            {
+                                <p>Standard 2</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 3)
+                            {
+                                <p>Standard 3</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 4)
+                            {
+                                <p>Standard 4</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 5)
+                            {
+                                <p>Standard 5</p>
+                            }
+                            else if (item.StudentCat == 1 && item.StudentStandard == 6)
+                            {
+                                <p>Standard 6</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 1)
+                            {
+                                <p>Form 1</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 2)
+                            {
+                                <p>Form 2</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 3)
+                            {
+                                <p>Form 3</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 4)
+                            {
+                                <p>Form 4</p>
+                            }
+                            else if (item.StudentCat == 2 && item.StudentStandard == 5)
+                            {
+                                <p>Form 5</p>
+                            }
+
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.subjCount)*@
+                            @listReg.Count(x => x.StudentID == item.StudentID)
+
+                        </td>
+                        <td>
+                            @foreach (var itemlol in Model.RegistrationList.Where(x => x.StudentID == item.StudentID))
+                            {
+                                <span>@Html.DisplayFor(mitem => itemlol.SubjectCode) &nbsp; </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.writingStat == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.transDPW == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.ccStat == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.mealStat == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        @{
+                            Ace_Tuition_WBL.Models.tbReceipt rec = db.tbReceipts.Where(x => x.StudentID == item.StudentID).FirstOrDefault();
+                        }
+                        <td>
+                            @Html.ActionLink("Register Subject", "EditReg", new { id = item.StudentID }, new { @class = "btn btn-success" }) |
+                            @*@Html.ActionLink("Payment Details", "../Payment/Details", new { id = rec.ReceiptID }, new { @class = "btn btn-warning" }) |*@
+                            @Html.ActionLink("Set Active", "Status", new { id = item.StudentID, stat = 1 }, new { @class = "btn btn-warning" })
+                            @*@Html.ActionLink("Delete", "DeleteReg", new { id = item.StudentID }, new { @class = "btn btn-danger" })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @*@foreach (var itemx in Model.RegistrationList){
+                Html.DisplayFor(mitem=> itemx.SubjectCode);
+            }*@
+    </div>
+</div>
+
+
+
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+        });
+    });
+</script>

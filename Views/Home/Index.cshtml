@@ -1,31 +1,119 @@
 ﻿@{
+    Layout = null;
     ViewBag.Title = "Home Page";
+
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="~/styles/style.css" rel="stylesheet" />
+    <!--web-fonts-->
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css' />
+    <!--web-fonts-->
+    <!-- js -->
+    <script src="~/styles/jquery.min.js"></script>
+    <script src="~/styles/easyResponsiveTabs.js" type="text/javascript"></script>
+    <!-- //js -->
+    <script type="application/x-javascript">
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+</head>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+
+}
+
+<body style="background-image: linear-gradient(140deg,#262561,#1c8c93)">
+    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #1c8c93 ">
+        <!-- Brand -->
+        <a class="navbar-brand col-2" href="#" ><img src="~/images/acedu.png"class="img-thumbnail img-rounded elevation-3" height="150" width="150" />
+        </a>
+        <div class="col-8"></div>
+        <!-- Links -->
+        <ul class="navbar-nav" style="font-weight:bold;">
+            <li class="nav-item">
+                <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+            </li>
+
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Manuals
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">User Manual</a>
+                    <a class="dropdown-item" href="#">FAQ</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+
+
+    <div class="main container-fluid">
+        <div class="row">
+            
+            <div class="col-7" style="background-color:white; opacity:0.8; border-radius:10px; margin-left:30px">
+                <img src="~/images/7408.png"/>
+            </div>
+            <div class="login-form col-4" >
+                <div class="sap_tabs w3ls-tabs" style="border-radius:10px">
+                    <img src="~/images/acedu.png" />
+                    <div style="display: block; width: 100%; margin: 0px;">
+                        <div class="clear"> </div>
+                        <div class="container">
+                            <div>
+                                <div class="login-agileits-top sign-up">
+                                    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                                    {
+                                        <p>IC No / Email</p>
+                                        <input placeholder="Type your IC No. or E-mail" name="ID" class="user" type="text" required="">
+                                        <p>Password</p>
+                                        <input placeholder="Password" name="Password" class="pass" type="password" required=""><br />
+                                        <div class="error">
+                                            <p style="color:red">@ViewBag.ErrorMessage</p>
+                                        </div>
+                                        <input type="submit" value="LOGIN">
+                                    }
+                                </div>
+                                <a href="@Url.Action("ForgotPassword","Home")" style="font-size:smaller ">Forgot Password</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- ResponsiveTabs js -->
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#horizontalTab').easyResponsiveTabs({
+                            type: 'default', //Types: default, vertical, accordion
+                            width: 'auto', //auto or any width like 600px
+                            fit: true   // 100% fit in a container
+                        });
+                    });
+                </script>
+                <!-- //ResponsiveTabs js -->
+            </div>
+            
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+</body>

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Ace_Tuition_WBL.Models.tbSecondary>
+
+@{
+    ViewBag.Title = "Index";
+    if (Session["User_Id"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Secondary Fees</h3>
+        <p align="right">
+            @Html.ActionLink("Create New", "Create",null, new { @class = "btn btn-success" })
+        </p>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-striped table-hover">
+            <tr>
+                <th>
+                    No. of Subject
+                </th>
+                <th>
+                    Secondary Fee
+                </th>
+                <th>
+                    Material Fee
+                </th>
+                <th>Manage</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondaryID)
+            </td>
+            <td>
+                RM
+                @Html.DisplayFor(modelItem => item.SecondaryFee)
+            </td>
+            <td>
+                RM
+                @Html.DisplayFor(modelItem => item.SecondaryMaterial)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.SecondaryID }, new { @class = "btn btn-warning" }) |
+                
+                @Html.ActionLink("Delete", "Delete", new { id = item.SecondaryID }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+            }
+
+        </table>
+        </div>
+    </div>

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Ace_Tuition_WBL.ViewModel.StudentParent>
+
+@{
+    ViewBag.Title = "Child";
+    Layout = "~/Views/Shared/_LayoutParent.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Student List</h2>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>IC No.</th>
+                    <th>Category</th>
+                    <th>Student Contact</th>
+                    <th>Subject Count</th>
+                    <th>Transportation</th>
+                    <th>ChildCare</th>
+                    <th>Meal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.parentdetail.ID == null)
+                    {
+                        <tr></tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@item.studentdetail.StudentID</td>
+                            <td>@item.studentdetail.StudentName</td>
+                            <td>@item.studentdetail.StudentIC</td>
+                            <td>
+                                @if (item.studentdetail.StudentCat == 1)
+                                {
+                                    <p>Primary</p>
+                                }
+                                else
+                                {
+                                    <p>Secondary</p>
+                                }
+                            </td>
+                            <td>@item.studentdetail.StudentContact</td>
+                            <td>@item.studentdetail.subjCount</td>
+                            <td>
+                                @if (item.studentdetail.transDPW == 0)
+                                {
+                                    <p>No</p>
+                                }
+                                else
+                                {
+                                    <p>Yes</p>
+                                }
+                            </td>
+                            <td>
+                                @if (item.studentdetail.ccStat == 0)
+                                {
+                                    <p>No</p>
+                                }
+                                else
+                                {
+                                    <p>Yes</p>
+                                }
+                            </td>
+                            <td>
+                                @if (item.studentdetail.mealStat == 0)
+                                {
+                                    <p>No</p>
+                                }
+                                else
+                                {
+                                    <p>Yes</p>
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.studentdetail.StudentID }, htmlAttributes: new { @class = "btn btn-info" })
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            
+
+        </table>
+    </div>
+</div>

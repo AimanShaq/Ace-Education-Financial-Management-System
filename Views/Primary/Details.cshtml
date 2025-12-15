@@ -1,0 +1,30 @@
+﻿@model Ace_Tuition_WBL.Models.tbPrimary
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    @*<h4>tbPrimary</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            No. of Subject
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrimaryID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PrimaryFee)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrimaryFee)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PrimaryID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

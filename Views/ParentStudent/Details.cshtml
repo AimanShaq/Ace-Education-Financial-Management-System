@@ -1,0 +1,163 @@
+﻿@model Ace_Tuition_WBL.Models.tbStudent
+
+@{
+    Layout = "~/Views/Shared/_LayoutParent.cshtml";
+    var studentname = ViewData["Name"];
+    var studentid = ViewData["id"];
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+    List<Ace_Tuition_WBL.Models.tbRegistration> listReg = db.tbRegistrations.ToList();
+    List<Ace_Tuition_WBL.Models.tbSubject> subList = db.tbSubjects.ToList();
+}
+
+<!--Personal Details-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Personal Details of @studentname</h5>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Student ID</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.StudentID)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Student IC</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.StudentIC)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Student Name</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.StudentName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Student Contact Number</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.StudentContact)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-12">Student Address</label>
+                                <div class="col-md-12">
+                                    @Html.DisplayFor(model => model.tbParent.ParentAdress)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Category, Subjects and Services-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Subjects and Services for @studentname</h5>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Student Category</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.tbCategory.CatDesc)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Subject(s) Taken</label>
+                                <div class="col-md-6">
+                                    @for (int i = 1; i <= Model.subjCount; i++)
+                                    {
+                                        foreach (var code in Model.tbRegistrations.Where(x => x.StudentID == Model.StudentID))
+                                        {
+                                            foreach (var subject in db.tbSubjects.Where(x => x.SubjectCodes == code.SubjectCode && x.CatID == Model.StudentCat))
+                                            {
+                                                string subjectname = subject.SubjectNames;
+                                                <p>@i - @subjectname</p>
+                                                i++;
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Meal Package</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.tbPackage.PackageDesc)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="control-label col-md-6">Transport Package</label>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.tbTransport.transName)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+                </div>
+            </div>
+<br />            

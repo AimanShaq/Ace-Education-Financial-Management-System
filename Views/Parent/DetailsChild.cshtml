@@ -1,0 +1,58 @@
+﻿@model Ace_Tuition_WBL.Models.tbStudent
+
+@{
+    ViewBag.Title = "DetailsChild";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tbStudent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Parent ID</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentID)
+        </dd>
+
+        <dt>Student Name</dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentName)
+        </dd>
+
+        <dt>Student School Category</dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentCat)
+        </dd>
+
+        <dt>Student Contact</dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentContact)
+        </dd>
+
+        <dt>Subject Count</dt>
+        <dd>
+            @Html.DisplayFor(model => model.subjCount)
+        </dd>
+
+        <dt>Transportation</dt>
+        <dd>
+            @Html.DisplayFor(model => model.transDPW)
+        </dd>
+
+        <dt>ChildCare</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ccStat)
+        </dd>
+
+        <dt>Meal</dt>
+        <dd>
+            @Html.DisplayFor(model => model.mealStat)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditChild", new { id = Model.StudentID }, new { @class = "btn btn-info" }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,209 @@
+﻿@model Ace_Tuition_WBL.Models.tbStudent
+
+@{
+    ViewBag.Title = "EditChild";
+    var ParentID = ViewData["pid"];
+}
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="card col-10">
+        <div class="card-header">
+            <h2 class="card-title" style="font-size:24px">Edit Child Details</h2>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @*<h4>tbStudent</h4>*@
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.StudentID)
+                    @Html.HiddenFor(model => ParentID)
+                    @Html.HiddenFor(model => model.transDPW)
+                    @Html.HiddenFor(model => model.ccStat)
+                    @Html.HiddenFor(model => model.mealStat)
+                    @Html.HiddenFor(model => model.writingStat)
+                    @Html.HiddenFor(model => model.StudentStatus)
+
+
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Student Name</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Student Name (Chinese)</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.StudentNameC, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentNameC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">IC No.</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.StudentIC, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentIC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin: 1px">
+                        <label class="control-label col-md-2">Student School Category : </label>
+                        <div class="col-md-3">
+                            <select id="studcat" onchange="changetextbox()" @Html.EditorFor(model => model.StudentCat, new { htmlAttributes = new { @class = "form-control" } })>
+                                <option value="@Html.DisplayFor(model=>model.StudentCat)" selected readonly>
+
+                                    Default:
+                                    @if (Model.StudentCat == 1)
+                                    {
+                                        <p>Primary [Standard 1 - 6]</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Secondary [Form 1 - 6]</p>
+                                    }
+                                </option>
+                                <option value="1">Primary [Standard 1 - 6]</option>
+                                <option value="2">Secondary [Form 1 - 6]</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.StudentCat, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row" style="margin: 1px">
+                        <label class="control-label col-md-2">Student School Standards : </label>
+                        <div class="col-md-2">
+
+                            <select style="display:none" @Html.EditorFor(model => model.StudentStandard, new { htmlAttributes = new { @class = "form-control", id = "studstd" } })>
+                                <option value="@Html.DisplayFor(model=>model.StudentStandard)" selected readonly>
+                                    Default:
+                                    @if (Model.StudentCat==1 && Model.StudentStandard == 1)
+                                    {
+                                        <p>Standard 1</p>
+                                    }
+                                    else if (Model.StudentCat == 1 && Model.StudentStandard == 2)
+                                    {
+                                        <p>Standard 2</p>
+                                    }
+                                    else if (Model.StudentCat == 1 && Model.StudentStandard == 3)
+                                    {
+                                        <p>Standard 3</p>
+                                    }
+                                    else if (Model.StudentCat == 1 && Model.StudentStandard == 4)
+                                    {
+                                        <p>Standard 4</p>
+                                    }
+                                    else if (Model.StudentCat == 1 && Model.StudentStandard == 5)
+                                    {
+                                        <p>Standard 5</p>
+                                    }
+                                    else if (Model.StudentCat == 1 && Model.StudentStandard == 6)
+                                    {
+                                        <p>Standard 6</p>
+                                    }
+                                </option>
+                                <option value="1">Standard 1</option>
+                                <option value="2">Standard 2</option>
+                                <option value="3">Standard 3</option>
+                                <option value="4">Standard 4</option>
+                                <option value="5">Standard 5</option>
+                                <option value="6">Standard 6</option>
+                            </select>
+                            <select style="display:none" @Html.EditorFor(model => model.StudentStandard, new { htmlAttributes = new { @class = "form-control", id = "studform" } })>
+                                <option value="@Html.DisplayFor(model=>model.StudentStandard)" selected readonly>
+                                    Default:
+                                    @if (Model.StudentCat == 2 && Model.StudentStandard == 1)
+                                    {
+                                        <p>Form 1</p>
+                                    }
+                                    else if (Model.StudentCat == 2 && Model.StudentStandard == 2)
+                                    {
+                                        <p>Form 2</p>
+                                    }
+                                    else if (Model.StudentCat == 2 && Model.StudentStandard == 3)
+                                    {
+                                        <p>Form 3</p>
+                                    }
+                                    else if (Model.StudentCat == 2 && Model.StudentStandard == 4)
+                                    {
+                                        <p>Form 4</p>
+                                    }
+                                    else if (Model.StudentCat == 2 && Model.StudentStandard == 5)
+                                    {
+                                        <p>Form 5</p>
+                                    }
+                                </option>
+                                <option value="1">Form 1</option>
+                                <option value="2">Form 2</option>
+                                <option value="3">Form 3</option>
+                                <option value="4">Form 4</option>
+                                <option value="5">Form 5</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.StudentStandard, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Student Contact No.</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.StudentContact, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentContact, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.subjCount, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Subject Count</label>
+                        <div class="col-md-1">
+                            @Html.EditorFor(model => model.subjCount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.subjCount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Save" class="btn btn-success" />&nbsp;
+                            @Html.ActionLink("Back to List", "Child", new { id = ParentID}, new { @class = "btn btn-info" })
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+            <script type="text/javascript">
+
+                function changetextbox() {
+                    if (document.getElementById("studcat").value === "0" || document.getElementById("studcat").value === "1") {
+                        document.getElementById("studstd").style.display = 'block';
+                        document.getElementById("studform").style.display = 'none';
+                        document.getElementById("studstd").disabled = false;
+                        document.getElementById("studform").disabled = true;
+                        //document.getElementById("b40tb").removeAttribute('readonly');
+                        //document.getElementById("b40tb").value = 0;
+                    }
+                    else {
+                        document.getElementById("studstd").style.display = 'none';
+                        document.getElementById("studform").style.display = 'block';
+                        document.getElementById("studstd").disabled = true;
+                        document.getElementById("studform").disabled = false;
+                        //document.getElementById("studform").removeAttribute('readonly');
+
+                    }
+
+                }
+            </script>
+        </div>
+    </div>
+</div>

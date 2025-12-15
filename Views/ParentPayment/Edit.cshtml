@@ -1,0 +1,416 @@
+﻿@model Ace_Tuition_WBL.Models.tbReceipt
+
+@{
+    Layout = "~/Views/Shared/_LayoutParent.cshtml";
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+
+
+    var sessionassign = Session["ParentID"];
+
+    int parentid;// = Convert.ToInt32(Session["ParentID"]);
+    List<Ace_Tuition_WBL.Models.tbReceipt> receipt = db.tbReceipts.ToList();
+    List<Ace_Tuition_WBL.Models.tbParent> parent = db.tbParents.ToList();
+
+    Ace_Tuition_WBL.Models.tbParent par = parent.Where(x => x.ParentIC == (string)sessionassign || x.ParentEmail == (string)sessionassign).FirstOrDefault();
+
+    parentid = par.ID;
+    var subtotal = ViewData["subtotal"];
+    var early = ViewData["early"];
+    var earlycc = ViewData["earlycc"];
+}
+
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="card col-10">
+        <div class="card-header">
+            <h2 class="card-title" style="font-size:24px">Upload Payment Proof</h2>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @using (Html.BeginForm("Edit", "ParentPayment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <label class="control-label col-md-6">Receipt ID</label>
+                            <div class="col-md-6">
+                                @Html.DisplayFor(model => model.ReceiptID)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <label class="control-label col-md-6">Receipt Date</label>
+                            <div class="col-md-6">
+                                @String.Format("{0:dd/MM/yyyy}", Model.ReceiptDate)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <label class="control-label col-md-6">Student Name</label>
+                            <div class="col-md-6">
+                                @Html.DisplayFor(model => model.tbStudent.StudentName)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <label class="control-label col-md-6">Payment Status</label>
+                            <div class="col-md-6">
+                                @if (Model.ReceiptStatus == 0)
+                                {
+                                    <p style="color:orange;">Outstanding</p>
+                                }
+                                else if (Model.ReceiptStatus == 1)
+                                {
+                                    <p style="color:darkblue">Pending Approval</p>
+                                }
+                                else if (Model.ReceiptStatus == 2)
+                                {
+                                    <p style="color:forestgreen">Accepted</p>
+                                }
+                                else if (Model.ReceiptStatus == 3)
+                                {
+                                    <p style="color:darkred">Rejected</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <!--Payment Description-->
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <label class="control-label col-md-12">Description</label>
+                            <div class="col-md-12">
+                                <table id="example1" class="table table-flush table-striped table-hover">
+                                    <colgroup>
+                                        <col span="1" style="width: 85%;">
+                                        <col span="1" style="width: 15%;">
+                                    </colgroup>
+                                    <thead>
+
+                                        <tr>
+                                            <th>Item</th>
+                                            <th style=" text-align: center">Total (RM)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @*First Registration Fee*@
+                                        @if (Model.firstReg == 1)
+                                        {
+                                            <tr>
+                                                <td style="font-size:medium">Registration Fee</td>
+                                                <td class="text-center" style="font-size:medium">30.00</td>
+                                            </tr>
+                                        }
+                                        @*Tuition Fee*@
+                                        <tr>
+                                            <td style="font-size:medium">Tuition Fee ( @Html.DisplayFor(model => model.tbStudent.subjCount) Subjects )</td>
+                                            <td class="text-center" style="font-size:medium">
+                                                @if (Model.tbStudent.StudentCat == 1)
+                                                {
+                                                    foreach (var item in Model.tbStudent.tbCategory.tbPrimaries.ToList())
+                                                    {
+                                                        if (Model.tbStudent.subjCount == item.PrimaryID)
+                                                        {
+                                                            @String.Format("{0:0.00}", item.PrimaryFee)
+                                                        }
+                                                    }
+                                                }
+                                                @if (Model.tbStudent.StudentCat == 2)
+                                                {
+                                                    foreach (var item in Model.tbStudent.tbCategory.tbSecondaries.ToList())
+                                                    {
+                                                        if (Model.tbStudent.subjCount == item.SecondaryID)
+                                                        {
+                                                            @String.Format("{0:0.00}", item.SecondaryFee)
+                                                        }
+
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        @*Material Fee*@
+                                        <tr>
+                                            <td style="font-size:medium">Material Fee</td>
+                                            <td class="text-center" style="font-size:medium">
+                                                @if (Model.tbStudent.StudentCat == 1)
+                                                {
+                                                    foreach (var item in Model.tbStudent.tbCategory.tbPrimaries.ToList())
+                                                    {
+                                                        if (Model.tbStudent.subjCount == item.PrimaryID)
+                                                        {
+                                                            @String.Format("{0:0.00}", item.PrimaryMaterial)
+                                                        }
+                                                    }
+                                                }
+                                                @if (Model.tbStudent.StudentCat == 2)
+                                                {
+                                                    foreach (var item in Model.tbStudent.tbCategory.tbSecondaries.ToList())
+                                                    {
+                                                        if (Model.tbStudent.subjCount == item.SecondaryID)
+                                                        {
+                                                            @String.Format("{0:0.00}", item.SecondaryMaterial)
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        @*Childcare Fee*@
+                                        @if (Model.tbStudent.ccStat != 0)
+                                        {
+                                            <tr>
+                                                <td style="font-size:medium">Childcare</td>
+                                                <td class="text-center" style="font-size:medium">
+                                                    @String.Format("{0:0.00}", Model.tbStudent.tbPackage.PackageFee)
+                                                </td>
+                                            </tr>
+                                        }
+                                        @*Meal Fee*@
+                                        @if (Model.tbStudent.mealStat != 0)
+                                        {
+                                            <tr>
+                                                <td style="font-size:medium">Meal Fee</td>
+                                                <td class="text-center" style="font-size:medium">
+                                                    @String.Format("{0:0.00}", Model.tbStudent.tbPackage1.PackageFee)
+                                                </td>
+                                            </tr>
+                                        }
+                                        @*Writing Fee*@
+                                        @if (Model.tbStudent.writingStat != 0)
+                                        {
+                                            <tr>
+                                                <td style="font-size:medium">Writing Fee</td>
+                                                <td class="text-center" style="font-size:medium">
+                                                    @String.Format("{0:0.00}", Model.tbStudent.tbPackage2.PackageFee)
+                                                </td>
+                                            </tr>
+                                        }
+                                        @*Transport Fee*@
+                                        @if (Model.tbStudent.transDPW != 0)
+                                        {
+                                            <tr>
+                                                <td style="font-size:medium">Transport</td>
+                                                <td class="text-center" style="font-size:medium">
+                                                    @String.Format("{0:0.00}", Model.tbStudent.tbTransport.transFee)
+                                                </td>
+                                            </tr>
+                                        }
+
+                                        @*Subtotal*@
+                                        <tr>
+                                            <td class="text-right" style="font-size:medium"><strong>Subtotal (RM): </strong></td>
+                                            <td class="text-center" style="font-size:medium">@String.Format("{0:0.00}", subtotal)</td>
+                                        </tr>
+                                        @*B40 Discount Fee*@
+                                        @if (Model.tbStudent.tbParent.B40Status != 0)
+                                        {
+                                            <tr>
+                                                <td class="text-right" style="font-size:medium"><strong>Discount: </strong></td>
+                                                <td class="text-center" style="font-size:medium">
+                                                    - @Html.DisplayFor(model => model.tbStudent.tbParent.B40Status) %
+                                                </td>
+                                            </tr>
+                                        }
+                                        @*Early Payment Fee*@
+                                        @if (Model.earlyPay == 1)
+                                        {
+                                            <tr>
+                                                <td class="text-right" style="font-size:medium">
+                                                    <p><strong>Early Pay Discount: </strong></p>
+                                                </td>
+                                                <td class="text-center" style="font-size:medium">
+
+                                                    @if (Model.tbStudent.ccStat == 0)
+                                                    {
+                                                        <p>- @String.Format("{0:0.00}", early) </p>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>- @String.Format("{0:0.00}", earlycc) </p>
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        }
+                                        @*Sibling Discount Fee*@
+                                        @if (Model.tbStudent.tbParent.siblingCount > 1)
+                                        {
+                                            <tr>
+                                                <td class="text-right">
+                                                    <strong>Sibling Discount: </strong>
+                                                </td>
+                                                <td class="text-center"> - 5% </td>
+                                            </tr>
+                                        }
+
+
+                                        @* Total Fee *@
+                                        <tr>
+                                            <td class="text-right" style="font-size:large"><strong>Total (RM): </strong></td>
+                                            <td class="text-center" style="font-size:large"> @String.Format("{0:0.00}", Model.ReceiptTotal)</td>
+                                        </tr>
+
+                                        @*Amount have Pay*@
+                                        @if (Model.ReceiptAmount != null)
+                                        {
+                                            <tr>
+                                                <td class="text-right" style="font-size:large; color:green;"><strong>Paid (RM): </strong></td>
+                                                <td class="text-center" style="font-size:large; color:green;">
+                                                    @String.Format("{0:0.00}", Model.ReceiptAmount)
+                                                </td>
+                                            </tr>
+                                        }
+                                        @*Amount need to Pay*@
+                                        @if (Model.ReceiptOutstanding == 1)
+                                        {
+                                            <tr>
+                                                <td class="text-right" style="font-size:large; color:red;"><strong>Outstanding (RM): </strong></td>
+                                                <td class="text-center" style="font-size:large; color:red;">
+                                                    @foreach (var item in Model.tbStudent.tbOutstandings.ToList())
+                                                    {
+                                                        if (item.StudentID == Model.tbStudent.StudentID)
+                                                        {
+                                                            @String.Format("{0:0.00}", item.OutFee);
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                        @if (Model.ReceiptAmount == null)
+                                        {
+                                            <tr>
+                                                <td class="text-right" style="font-size:large; color:red;"><strong>Outstanding (RM): </strong></td>
+                                                <td class="text-center" style="font-size:large; color:red;">
+                                                    @String.Format("{0:0.00}", Model.ReceiptTotal)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <label class="control-label col-md-12">Payment Proof</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.ReceiptProof, new { htmlAttributes = new { @type = "file", id = "file", onchange = " fileValidation()" } })
+                                @Html.ValidationMessageFor(model => model.ReceiptProof, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12" id="imagePreview"></div>
+
+                            <br />
+                            <div class="col-md-6">
+                                @if (Model.ReceiptProof is null)
+                                {
+                                    <h3 style="font-weight:bold; color: red">No proof have been uploaded</h3>
+                                }
+                                else
+                                {
+                                    <img id="imagealready" src="@Url.Content(Model.ReceiptProof)" style="width:500px;height:500px;" class="center" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-1">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div>
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+                    </div>
+                </div>
+            </div>
+            }
+
+
+            <script type="text/javascript">
+                function fileValidation() {
+                    var fileInput =
+                        document.getElementById('file');
+
+                    const fi = document.getElementById('file');
+
+                    var filePath = fileInput.value;
+
+                    // Allowing file type
+                    var allowedExtensions =
+                        /(\.jpg|\.jpeg|\.png|\.pdf)$/i;
+
+                    if (!allowedExtensions.exec(filePath)) {
+                        alert('Invalid file type, please upload a valid file.');
+                        fileInput.value = '';
+                        return false;
+                    }
+                    else {
+                        if (fi.files.length > 0) {
+                            for (const i = 0; i <= fi.files.length - 1; i++) {
+
+                                const fsize = fi.files.item(i).size;
+                                const file = Math.round(fsize);
+
+                                // The size of the file.
+                                if (file >= 131072) {
+                                    alert("File too big, please select a file less than 128Kb");
+                                    fileInput.value = '';
+                                    return false;
+                                }
+                                else {
+                                    // Image preview
+                                    if (fileInput.files && fileInput.files[0]) {
+                                        var reader = new FileReader();
+                                        reader.onload = function (e) {
+                                            document.getElementById(
+                                                'imagePreview').innerHTML =
+                                                '<img src="' + e.target.result + '" style="width:500px;height:700px;" class="center"/>';
+                                            document.getElementById('imagealready').style.display = 'none';
+                                        };
+
+                                        reader.readAsDataURL(fileInput.files[0]);
+                                    }
+
+                                    return filePath;
+                                }
+                            }
+                        }
+                    }
+                }
+            </script>
+
+        </div>
+    </div>
+</div>
+
+

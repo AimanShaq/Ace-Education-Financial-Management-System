@@ -1,0 +1,49 @@
+﻿@model Ace_Tuition_WBL.Models.tbParent
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    @*<h4>tbParent</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Parent Name</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentName)
+        </dd>
+
+        <dt>Password</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>Contact No</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentContact)
+        </dd>
+
+        <dt>B40 Status</dt>
+        <dd>
+            @Html.DisplayFor(model => model.B40Status)
+        </dd>
+
+        <dt>Child Count</dt>
+        <dd>
+            @Html.DisplayFor(model => model.siblingCount)
+        </dd>
+
+        <dt>Address</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentAdress)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

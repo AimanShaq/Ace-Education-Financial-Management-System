@@ -1,0 +1,133 @@
+﻿@model Ace_Tuition_WBL.ViewModel.StudentParent
+
+@{
+    //ViewBag.Title = "Parent List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //var parentlist = Model.Distinct()
+    if (Session["User_Id"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+    
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Parent List</h3>
+        <p align="right">
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+        </p>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-flush table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>IC No.</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.parentdetail.ParentName)
+                    </th>
+                    <th>
+                        Name (Chinese)
+                    </th>
+                    <th>
+                        Contact No.
+                    </th>
+                    <th>
+                        B40 Status
+                    </th>
+                    <th>
+                        No. of Children
+                    </th>
+                    <th style="display:none">Student IC</th>
+                    <th>
+                        Address
+                    </th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.parentlist)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParentIC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParentNameC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParentContact)
+                        </td>
+                        <td>
+
+                            @if (item.B40Status == 0)
+                            {
+                                <p>No</p>
+                            }
+                            else
+                            {
+                                <p>Yes</p>
+                            }
+                        </td>
+                        <td>
+                            @*Html.DisplayFor(modelItem => item.siblingCount)*@
+                            @Model.studentlist.Count(x => x.ParentID == item.ID)
+                        </td>
+                        <td style="display:none">
+                            @{
+                                //Ace_Tuition_WBL.Models.tbStudent dachild = db.tbStudents.Where(x => x.ParentID == item.ID).FirstOrDefault();
+                                foreach(var lol in item.tbStudents.Where(x=>x.ParentID == item.ID))
+                                {
+                                    @Html.DisplayFor(modelItem => lol.StudentIC)
+                                }
+                             }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParentAdress)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Child", "Child", new { id = item.ID }, new { @class = "btn btn-success" })
+
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-warning" })
+
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print"],
+                "columnDefs": [
+                    {
+                        "targets": [6],
+                        "visible": false,
+                    }],
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+</script>
+
+

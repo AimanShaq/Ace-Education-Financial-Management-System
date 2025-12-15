@@ -1,0 +1,66 @@
+﻿@model Ace_Tuition_WBL.ViewModel.SubjectModel
+
+@{
+    ViewBag.Title = "EditReg";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @*<h4>tbStudent</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Studentget.StudentID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Studentget.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Studentget.StudentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Studentget.StudentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Studentget.StudentCat, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Studentget.StudentCat, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Studentget.StudentCat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <table>
+            <tr>
+                <th></th>
+                <th>SubjCode</th>
+            </tr>
+
+            @for (int i = 0; i < Model.Subjectlist.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBoxFor(model => model.Subjectlist[i].IsChecked)
+                    </td>
+                    <td>
+                        @Model.Subjectlist[i].SubjectCodes
+                    </td>
+                    @Html.HiddenFor(model=>model.Subjectlist[i].SubjectCodes)
+                </tr>
+            }
+
+
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

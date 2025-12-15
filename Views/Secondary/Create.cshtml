@@ -1,0 +1,51 @@
+﻿@model Ace_Tuition_WBL.Models.tbSecondary
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Secondary Subject Fee</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @*<h4>tbSecondary</h4>*@
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.SecondaryID, htmlAttributes: new { @class = "control-label col-md-2" })*@
+        <label class="control-label col-md-2">No. of Subject</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SecondaryID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SecondaryID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SecondaryFee, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SecondaryFee, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SecondaryFee, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.SecondaryMaterial, htmlAttributes: new { @class = "control-label col-md-2" })*@
+        <label class="control-label col-md-2">Material Fee</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SecondaryMaterial, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SecondaryMaterial, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

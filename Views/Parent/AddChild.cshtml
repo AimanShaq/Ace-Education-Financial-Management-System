@@ -1,0 +1,161 @@
+﻿@model Ace_Tuition_WBL.Models.tbStudent
+
+@{
+    ViewBag.Title = "AddChild";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ParentID = ViewData["id"];
+}
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="card col-10">
+        <!-- /.card-header -->
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <!--<div class="form-group">-->
+                    @*@Html.LabelFor(model => model.StudentID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <!--<label class="control-label col-md-2">Student ID</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StudentID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentID, "", new { @class = "text-danger" })*@
+                    <!--/div>
+            </div>-->
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        @*<label class="control-label col-md-2">Parent ID</label>*@
+                        <div class="col-md-12">
+                            @Html.HiddenFor(model => ParentID, new { @readonly = "readonly", @class = "form-control" })
+                            @*@Html.EditorFor(model => model.ParentID, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Student Name</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Student Name (Chinese)</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.StudentNameC, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentNameC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">IC No.</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.StudentIC, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentIC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin: 1px">
+                        <label class="control-label col-md-2">Student School Category : </label>
+                        <div class="col-md-2">
+                            <select id="studcat" onchange="changetextbox()" @Html.EditorFor(model => model.StudentCat, new { htmlAttributes = new { @class = "form-control" } })>
+                                <option value="1">Primary [Standard 1 - 6]</option>
+                                <option value="2">Secondary [Form 1 - 6]</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.StudentCat, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row" style="margin: 1px">
+                        <label class="control-label col-md-2">Student School Standards : </label>
+                        <div class="col-md-2">
+                            <select @Html.EditorFor(model => model.StudentStandard, new { htmlAttributes = new { @class = "form-control", id = "studstd" } })>
+                                <option value="1">Standard 1</option>
+                                <option value="2">Standard 2</option>
+                                <option value="3">Standard 3</option>
+                                <option value="4">Standard 4</option>
+                                <option value="5">Standard 5</option>
+                                <option value="6">Standard 6</option>
+                            </select>
+                            <select style="display:none" @Html.EditorFor(model => model.StudentStandard, new { htmlAttributes = new { @class = "form-control", id = "studform" } })>
+                                <option value="1">Form 1</option>
+                                <option value="2">Form 2</option>
+                                <option value="3">Form 3</option>
+                                <option value="4">Form 4</option>
+                                <option value="5">Form 5</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.StudentStandard, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">-->
+                    @*@Html.LabelFor(model => model.StudentCat, htmlAttributes: new { @class = "control-label col-md-2" })
+                <!--<label class="control-label col-md-2">Student School Category</label>
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.StudentCat, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentCat, "", new { @class = "text-danger" })*@
+                    <!--/div>
+            </div>-->
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.StudentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Student Contact No.</label>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.StudentContact, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentContact, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                     @Html.HiddenFor(model => model.StudentStatus, new { htmlAttributes = new { @Value = "1", @class = "form-control" } })
+                    @Html.HiddenFor(model => model.subjCount, new { htmlAttributes = new { @Value = "0", @class = "form-control" } })
+                    @Html.HiddenFor(model => model.transDPW, new { htmlAttributes = new { @Value = "0", @class = "form-control" } })
+                    @Html.HiddenFor(model => model.ccStat, new { htmlAttributes = new { @Value = "0", @class = "form-control" } })
+                    @Html.HiddenFor(model => model.mealStat, new { htmlAttributes = new { @Value = "0", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.subjCount, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.transDPW, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.ccStat, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.mealStat, "", new { @class = "text-danger" })
+
+
+
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                @Html.ActionLink("Back to List", "Child", new { id = ParentID })
+            </div>
+            <script type="text/javascript">
+
+                function changetextbox() {
+                    if (document.getElementById("studcat").value === "0" || document.getElementById("studcat").value === "1") {
+                        document.getElementById("studstd").style.display = 'block';
+                        document.getElementById("studform").style.display = 'none';
+                        document.getElementById("studstd").disabled = false;
+                        document.getElementById("studform").disabled = true;
+                        //document.getElementById("b40tb").removeAttribute('readonly');
+                        //document.getElementById("b40tb").value = 0;
+                    }
+                    else {
+                        document.getElementById("studstd").style.display = 'none';
+                        document.getElementById("studform").style.display = 'block';
+                        document.getElementById("studstd").disabled = true;
+                        document.getElementById("studform").disabled = false;
+                        //document.getElementById("studform").removeAttribute('readonly');
+                    }
+                }
+            </script>
+        </div>
+        </div>
+    </div>

@@ -1,14 +1,380 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Ace_Tuition_WBLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="tb_admin">
-    <Key>
-      <PropertyRef Name="User_Id" />
-    </Key>
-    <Property Name="User_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="User_Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityContainer Name="Ace_Tuition_WBLEntities1" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="tb_admin" EntityType="Self.tb_admin" />
+    <EntitySet Name="tbAdmins" EntityType="Ace_Tuition_WBLModel.tbAdmin" />
+    <EntitySet Name="tbCategories" EntityType="Ace_Tuition_WBLModel.tbCategory" />
+    <EntitySet Name="tbParents" EntityType="Ace_Tuition_WBLModel.tbParent" />
+    <EntitySet Name="tbPrimaries" EntityType="Ace_Tuition_WBLModel.tbPrimary" />
+    <EntitySet Name="tbReceipts" EntityType="Ace_Tuition_WBLModel.tbReceipt" />
+    <EntitySet Name="tbRegistrations" EntityType="Ace_Tuition_WBLModel.tbRegistration" />
+    <EntitySet Name="tbSecondaries" EntityType="Ace_Tuition_WBLModel.tbSecondary" />
+    <EntitySet Name="tbStudents" EntityType="Ace_Tuition_WBLModel.tbStudent" />
+    <EntitySet Name="tbSubjects" EntityType="Ace_Tuition_WBLModel.tbSubject" />
+    <EntitySet Name="tbTransports" EntityType="Ace_Tuition_WBLModel.tbTransport" />
+    <EntitySet Name="tbOutstandings" EntityType="Ace_Tuition_WBLModel.tbOutstanding" />
+    <EntitySet Name="tbPackages" EntityType="Ace_Tuition_WBLModel.tbPackage" />
+    <FunctionImport Name="GetParentStudentDetails" ReturnType="Collection(Ace_Tuition_WBLModel.GetParentStudentDetails_Result)" />
+    <AssociationSet Name="FK_tbPrimary_tbCategory" Association="Ace_Tuition_WBLModel.FK_tbPrimary_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategories" />
+      <End Role="tbPrimary" EntitySet="tbPrimaries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbSecondary_tbCategory" Association="Ace_Tuition_WBLModel.FK_tbSecondary_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategories" />
+      <End Role="tbSecondary" EntitySet="tbSecondaries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbCategory" Association="Ace_Tuition_WBLModel.FK_tbStudent_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategories" />
+      <End Role="tbStudent" EntitySet="tbStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbSubject_tbCategory" Association="Ace_Tuition_WBLModel.FK_tbSubject_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategories" />
+      <End Role="tbSubject" EntitySet="tbSubjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbOutstanding_tbStudent" Association="Ace_Tuition_WBLModel.FK_tbOutstanding_tbStudent">
+      <End Role="tbStudent" EntitySet="tbStudents" />
+      <End Role="tbOutstanding" EntitySet="tbOutstandings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbPackage_cc" Association="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_cc">
+      <End Role="tbPackage" EntitySet="tbPackages" />
+      <End Role="tbStudent" EntitySet="tbStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbPackage_meal" Association="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_meal">
+      <End Role="tbPackage" EntitySet="tbPackages" />
+      <End Role="tbStudent" EntitySet="tbStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbParent" Association="Ace_Tuition_WBLModel.FK_tbStudent_tbParent">
+      <End Role="tbParent" EntitySet="tbParents" />
+      <End Role="tbStudent" EntitySet="tbStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbReceipt_tbStudent" Association="Ace_Tuition_WBLModel.FK_tbReceipt_tbStudent">
+      <End Role="tbStudent" EntitySet="tbStudents" />
+      <End Role="tbReceipt" EntitySet="tbReceipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbRegistration_tbStudent" Association="Ace_Tuition_WBLModel.FK_tbRegistration_tbStudent">
+      <End Role="tbStudent" EntitySet="tbStudents" />
+      <End Role="tbRegistration" EntitySet="tbRegistrations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbTransport" Association="Ace_Tuition_WBLModel.FK_tbStudent_tbTransport">
+      <End Role="tbTransport" EntitySet="tbTransports" />
+      <End Role="tbStudent" EntitySet="tbStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbPackage_writing" Association="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_writing">
+      <End Role="tbPackage" EntitySet="tbPackages" />
+      <End Role="tbStudent" EntitySet="tbStudents" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="tbAdmin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbCategory">
+    <Key>
+      <PropertyRef Name="CatID" />
+    </Key>
+    <Property Name="CatID" Type="Int32" Nullable="false" />
+    <Property Name="CatDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbPrimaries" Relationship="Ace_Tuition_WBLModel.FK_tbPrimary_tbCategory" FromRole="tbCategory" ToRole="tbPrimary" />
+    <NavigationProperty Name="tbSecondaries" Relationship="Ace_Tuition_WBLModel.FK_tbSecondary_tbCategory" FromRole="tbCategory" ToRole="tbSecondary" />
+    <NavigationProperty Name="tbStudents" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbCategory" FromRole="tbCategory" ToRole="tbStudent" />
+    <NavigationProperty Name="tbSubjects" Relationship="Ace_Tuition_WBLModel.FK_tbSubject_tbCategory" FromRole="tbCategory" ToRole="tbSubject" />
+  </EntityType>
+  <EntityType Name="tbParent">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ParentName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ParentContact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="B40Status" Type="Int32" />
+    <Property Name="siblingCount" Type="Int32" />
+    <Property Name="ParentAdress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ParentIC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentReg" Type="Int32" />
+    <NavigationProperty Name="tbStudents" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbParent" FromRole="tbParent" ToRole="tbStudent" />
+    <Property Name="ParentEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ParentNameC" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tbPrimary">
+    <Key>
+      <PropertyRef Name="PrimaryID" />
+    </Key>
+    <Property Name="PrimaryID" Type="Int32" Nullable="false" />
+    <Property Name="PrimaryFee" Type="Double" />
+    <Property Name="PrimaryMaterial" Type="Double" />
+    <Property Name="CatID" Type="Int32" />
+    <NavigationProperty Name="tbCategory" Relationship="Ace_Tuition_WBLModel.FK_tbPrimary_tbCategory" FromRole="tbPrimary" ToRole="tbCategory" />
+  </EntityType>
+  <EntityType Name="tbReceipt">
+    <Key>
+      <PropertyRef Name="ReceiptID" />
+    </Key>
+    <Property Name="ReceiptID" Type="Int32" Nullable="false" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="ReceiptTotal" Type="Double" />
+    <Property Name="ReceiptAmount" Type="Double" />
+    <Property Name="StudentID" Type="Int32" />
+    <Property Name="ReceiptDate" Type="DateTime" Precision="0" />
+    <Property Name="ReceiptDiscount" Type="Double" />
+    <Property Name="ReceiptDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ReceiptProof" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="earlyPay" Type="Int32" />
+    <Property Name="firstReg" Type="Int32" />
+    <Property Name="ReceiptStatus" Type="Int32" />
+    <NavigationProperty Name="tbStudent" Relationship="Ace_Tuition_WBLModel.FK_tbReceipt_tbStudent" FromRole="tbReceipt" ToRole="tbStudent" />
+    <Property Name="ReceiptOutstanding" Type="Int32" />
+    <Property Name="BillDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="tbRegistration">
+    <Key>
+      <PropertyRef Name="RegID" />
+    </Key>
+    <Property Name="RegID" Type="Int32" Nullable="false" />
+    <Property Name="SubjectCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="StudentID" Type="Int32" />
+    <NavigationProperty Name="tbStudent" Relationship="Ace_Tuition_WBLModel.FK_tbRegistration_tbStudent" FromRole="tbRegistration" ToRole="tbStudent" />
+  </EntityType>
+  <EntityType Name="tbSecondary">
+    <Key>
+      <PropertyRef Name="SecondaryID" />
+    </Key>
+    <Property Name="SecondaryID" Type="Int32" Nullable="false" />
+    <Property Name="SecondaryFee" Type="Double" />
+    <Property Name="SecondaryMaterial" Type="Double" />
+    <Property Name="CatID" Type="Int32" />
+    <NavigationProperty Name="tbCategory" Relationship="Ace_Tuition_WBLModel.FK_tbSecondary_tbCategory" FromRole="tbSecondary" ToRole="tbCategory" />
+  </EntityType>
+  <EntityType Name="tbStudent">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="Int32" Nullable="false" />
+    <Property Name="ParentID" Type="Int32" Nullable="false" />
+    <Property Name="StudentName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="StudentCat" Type="Int32" />
+    <Property Name="StudentContact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="subjCount" Type="Int32" />
+    <Property Name="transDPW" Type="Int32" />
+    <Property Name="ccStat" Type="Int32" />
+    <Property Name="mealStat" Type="Int32" />
+    <Property Name="StudentIC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbCategory" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbCategory" FromRole="tbStudent" ToRole="tbCategory" />
+    <NavigationProperty Name="tbOutstandings" Relationship="Ace_Tuition_WBLModel.FK_tbOutstanding_tbStudent" FromRole="tbStudent" ToRole="tbOutstanding" />
+    <NavigationProperty Name="tbPackage" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_cc" FromRole="tbStudent" ToRole="tbPackage" />
+    <NavigationProperty Name="tbPackage1" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_meal" FromRole="tbStudent" ToRole="tbPackage" />
+    <NavigationProperty Name="tbParent" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbParent" FromRole="tbStudent" ToRole="tbParent" />
+    <NavigationProperty Name="tbReceipts" Relationship="Ace_Tuition_WBLModel.FK_tbReceipt_tbStudent" FromRole="tbStudent" ToRole="tbReceipt" />
+    <NavigationProperty Name="tbRegistrations" Relationship="Ace_Tuition_WBLModel.FK_tbRegistration_tbStudent" FromRole="tbStudent" ToRole="tbRegistration" />
+    <NavigationProperty Name="tbTransport" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbTransport" FromRole="tbStudent" ToRole="tbTransport" />
+    <Property Name="StudentNameC" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="writingStat" Type="Int32" />
+    <NavigationProperty Name="tbPackage2" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_writing" FromRole="tbStudent" ToRole="tbPackage" />
+    <Property Name="StudentStandard" Type="Int32" />
+    <Property Name="StudentStatus" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tbSubject">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="SubjectNames" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CatID" Type="Int32" />
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="SubjectCodes" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsChecked" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="tbCategory" Relationship="Ace_Tuition_WBLModel.FK_tbSubject_tbCategory" FromRole="tbSubject" ToRole="tbCategory" />
+    <Property Name="SubjectNameC" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tbTransport">
+    <Key>
+      <PropertyRef Name="transDPW" />
+    </Key>
+    <Property Name="transDPW" Type="Int32" Nullable="false" />
+    <Property Name="transName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="transFee" Type="Double" />
+    <NavigationProperty Name="tbStudents" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbTransport" FromRole="tbTransport" ToRole="tbStudent" />
+  </EntityType>
+  <EntityType Name="tbOutstanding">
+    <Key>
+      <PropertyRef Name="OutID" />
+    </Key>
+    <Property Name="OutID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OutMonth" Type="Int32" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="StudentID" Type="Int32" />
+    <Property Name="OutFee" Type="Double" />
+    <Property Name="OutStatus" Type="Int32" />
+    <Property Name="OutDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbStudent" Relationship="Ace_Tuition_WBLModel.FK_tbOutstanding_tbStudent" FromRole="tbOutstanding" ToRole="tbStudent" />
+  </EntityType>
+  <EntityType Name="tbPackage">
+    <Key>
+      <PropertyRef Name="PackageStat" />
+    </Key>
+    <Property Name="PackageStat" Type="Int32" Nullable="false" />
+    <Property Name="PackageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PackageDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PackageFee" Type="Double" />
+    <NavigationProperty Name="tbStudents" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_cc" FromRole="tbPackage" ToRole="tbStudent" />
+    <NavigationProperty Name="tbStudents1" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_meal" FromRole="tbPackage" ToRole="tbStudent" />
+    <NavigationProperty Name="tbStudents2" Relationship="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_writing" FromRole="tbPackage" ToRole="tbStudent" />
+  </EntityType>
+  <ComplexType Name="GetParentStudentDetails_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="ParentName" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ParentContact" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="B40Status" Nullable="true" />
+    <Property Type="Int32" Name="siblingCount" Nullable="true" />
+    <Property Type="String" Name="ParentAdress" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="ParentIC" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentReg" Nullable="true" />
+  </ComplexType>
+  <Association Name="FK_tbPrimary_tbCategory">
+    <End Type="Ace_Tuition_WBLModel.tbCategory" Role="tbCategory" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbPrimary" Role="tbPrimary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbPrimary">
+        <PropertyRef Name="CatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbSecondary_tbCategory">
+    <End Type="Ace_Tuition_WBLModel.tbCategory" Role="tbCategory" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbSecondary" Role="tbSecondary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbSecondary">
+        <PropertyRef Name="CatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbCategory">
+    <End Type="Ace_Tuition_WBLModel.tbCategory" Role="tbCategory" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="StudentCat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbSubject_tbCategory">
+    <End Type="Ace_Tuition_WBLModel.tbCategory" Role="tbCategory" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbSubject" Role="tbSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbSubject">
+        <PropertyRef Name="CatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbOutstanding_tbStudent">
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbOutstanding" Role="tbOutstanding" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbStudent">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tbOutstanding">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbPackage_cc">
+    <End Type="Ace_Tuition_WBLModel.tbPackage" Role="tbPackage" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPackage">
+        <PropertyRef Name="PackageStat" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="ccStat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbPackage_meal">
+    <End Type="Ace_Tuition_WBLModel.tbPackage" Role="tbPackage" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPackage">
+        <PropertyRef Name="PackageStat" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="mealStat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbParent">
+    <End Type="Ace_Tuition_WBLModel.tbParent" Role="tbParent" Multiplicity="1" />
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbParent">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbReceipt_tbStudent">
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbReceipt" Role="tbReceipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbStudent">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tbReceipt">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbRegistration_tbStudent">
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbRegistration" Role="tbRegistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbStudent">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tbRegistration">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbTransport">
+    <End Type="Ace_Tuition_WBLModel.tbTransport" Role="tbTransport" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbTransport">
+        <PropertyRef Name="transDPW" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="transDPW" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbPackage_writing">
+    <End Type="Ace_Tuition_WBLModel.tbPackage" Role="tbPackage" Multiplicity="0..1" />
+    <End Type="Ace_Tuition_WBLModel.tbStudent" Role="tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPackage">
+        <PropertyRef Name="PackageStat" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="writingStat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

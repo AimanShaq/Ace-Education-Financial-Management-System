@@ -1,0 +1,145 @@
+﻿@model Ace_Tuition_WBL.Models.tbReceipt
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var outstand = ViewData["outstand"];
+}
+
+<div class="row">
+    <div class="col-2"> </div>
+    <div class="card col-8">
+        <div class="card-header">
+            <h1 class="card-title, text-center">Edit Payment</h1>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+            <div class="form-horizontal, align-content-center">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ParentID)
+                @Html.HiddenFor(model => model.StudentID)
+                @Html.HiddenFor(model => model.ReceiptID)
+                @Html.HiddenFor(model => model.BillDate)
+                @Html.HiddenFor(model => model.earlyPay)
+                @Html.HiddenFor(model => model.firstReg)
+                @Html.HiddenFor(model => model.ReceiptOutstanding)
+                @Html.HiddenFor(model => model.tbStudent.tbParent.B40Status)
+
+                <h3>Payment Info</h3>
+                @Html.HiddenFor(model => model.ReceiptDate)
+                @Html.DisplayFor(model => model.ReceiptDate, new { @class = "form-control", @readonly = "readonly" })<hr />
+
+                <div class="form-group row">
+                    <label class="control-label col-md-2">
+                        Total Fee
+                    </label>
+                    <div class="col-md-8">
+                        @Html.HiddenFor(model => model.ReceiptTotal)
+                        @Html.TextBoxFor(model => model.ReceiptTotal, new { @class = "form-control", @readonly = "readonly", @Value = "RM " + String.Format("{0:0.00}", Model.ReceiptTotal) })
+
+                    </div>
+                </div>
+
+                @if (Model.ReceiptOutstanding == 1)
+                {
+                    <div class="form-group row">
+                        <label class="control-label col-md-2">
+                            Outstanding
+                        </label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => outstand, new { @class = "form-control", @readonly = "readonly", @Value = "RM " + String.Format("{0:0.00}", outstand) })
+                        </div>
+                    </div>
+                }
+                <hr />
+                <div class="form-group">
+                    Receipt Proof
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.HiddenFor(model => model.ReceiptProof)
+                            @Html.ValidationMessageFor(model => model.ReceiptProof, "", new { @class = "text-danger" })
+                            @if (Model.ReceiptProof != null)
+                            {
+
+                                <a href="@Url.Content(Model.ReceiptProof)" class="btn btn-success" download><span class="fa fa-download"> </span> Download Proof</a>
+                            }
+                            else
+                            {
+                                <h4 style="color:red; font-weight:bold"> Receipt Proof has not been Uploaded</h4>
+                            }
+                        </div> &nbsp;
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Payment Amount
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ReceiptAmount, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.ReceiptAmount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Payment Description
+                    <div class="col-md-8">
+
+                        @Html.EditorFor(model => model.ReceiptDesc, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.ReceiptDesc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+            Payment Date
+            <div class="col-md-8">
+                @Html.HiddenFor(model => model.ReceiptDate)
+                @Html.TextBoxFor(model => model.ReceiptDate, new { @class = "form-control", @readonly = "readonly" } )
+                @Html.ValidationMessageFor(model => model.ReceiptDate, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                <div class="form-group row">
+                    <label class="control-label col-md-2">Payment Status:</label>
+                    <div class="col-md-4">
+                        <select @Html.EditorFor(model => model.ReceiptStatus, new { htmlAttributes = new { @class = "form-control", required = "required" } })>
+                            <option value="@Html.DisplayFor(model=>model.ReceiptStatus)" selected>
+                                Default:
+                                @if (Model.ReceiptStatus == 0)
+                                {
+                                    <p>Outstanding</p>
+                                }
+                                else if (Model.ReceiptStatus == 1)
+                                {
+                                    <p>Pending Approval</p>
+                                }
+                                else if (Model.ReceiptStatus == 2)
+                                {
+                                    <p>Accepted</p>
+                                }
+                                else if (Model.ReceiptStatus == 3)
+                                {
+                                    <p>Rejected</p>
+                                }
+                            </option>
+                            <option value="0">Outstanding</option>
+                            <option value="2">Accepted</option>
+                            <option value="3">Rejected</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.ReceiptStatus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+                <div class="card-footer">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                    @Html.ActionLink("Details", "Details", new { id = Model.ReceiptID }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+                </div>
+            </div>
+             }
+        </div>
+    </div>
+</div>

@@ -1,14 +1,345 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Ace_Tuition_WBLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="tb_admin">
+  <EntityType Name="tbAdmin">
     <Key>
-      <PropertyRef Name="User_Id" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="User_Id" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="User_Name" Type="varchar" MaxLength="50" />
-    <Property Name="User_Password" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="tbCategory">
+    <Key>
+      <PropertyRef Name="CatID" />
+    </Key>
+    <Property Name="CatID" Type="int" Nullable="false" />
+    <Property Name="CatDesc" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tbOutstanding">
+    <Key>
+      <PropertyRef Name="OutID" />
+    </Key>
+    <Property Name="OutID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OutMonth" Type="int" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="StudentID" Type="int" />
+    <Property Name="OutFee" Type="float" />
+    <Property Name="OutStatus" Type="int" />
+    <Property Name="OutDetail" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="tbPackage">
+    <Key>
+      <PropertyRef Name="PackageStat" />
+    </Key>
+    <Property Name="PackageStat" Type="int" Nullable="false" />
+    <Property Name="PackageName" Type="nvarchar" MaxLength="50" />
+    <Property Name="PackageDesc" Type="nvarchar" MaxLength="50" />
+    <Property Name="PackageFee" Type="float" />
+  </EntityType>
+  <EntityType Name="tbParent">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentName" Type="varchar" MaxLength="250" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentContact" Type="nvarchar" MaxLength="50" />
+    <Property Name="B40Status" Type="int" />
+    <Property Name="siblingCount" Type="int" />
+    <Property Name="ParentAdress" Type="nvarchar" MaxLength="500" />
+    <Property Name="ParentReg" Type="int" />
+    <Property Name="ParentIC" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentEmail" Type="nvarchar" MaxLength="100" />
+    <Property Name="ParentNameC" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="tbPrimary">
+    <Key>
+      <PropertyRef Name="PrimaryID" />
+    </Key>
+    <Property Name="CatID" Type="int" />
+    <Property Name="PrimaryID" Type="int" Nullable="false" />
+    <Property Name="PrimaryFee" Type="float" />
+    <Property Name="PrimaryMaterial" Type="float" />
+  </EntityType>
+  <EntityType Name="tbReceipt">
+    <Key>
+      <PropertyRef Name="ReceiptID" />
+    </Key>
+    <Property Name="ReceiptID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="ReceiptTotal" Type="float" />
+    <Property Name="ReceiptAmount" Type="float" />
+    <Property Name="StudentID" Type="int" />
+    <Property Name="ReceiptDate" Type="date" />
+    <Property Name="ReceiptDiscount" Type="float" />
+    <Property Name="ReceiptDesc" Type="nvarchar" MaxLength="500" />
+    <Property Name="ReceiptProof" Type="nvarchar" MaxLength="1000" />
+    <Property Name="earlyPay" Type="int" />
+    <Property Name="firstReg" Type="int" />
+    <Property Name="ReceiptStatus" Type="int" />
+    <Property Name="ReceiptOutstanding" Type="int" />
+    <Property Name="BillDate" Type="date" />
+  </EntityType>
+  <EntityType Name="tbRegistration">
+    <Key>
+      <PropertyRef Name="RegID" />
+    </Key>
+    <Property Name="RegID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SubjectCode" Type="nvarchar" MaxLength="100" />
+    <Property Name="StudentID" Type="int" />
+  </EntityType>
+  <EntityType Name="tbSecondary">
+    <Key>
+      <PropertyRef Name="SecondaryID" />
+    </Key>
+    <Property Name="SecondaryID" Type="int" Nullable="false" />
+    <Property Name="SecondaryFee" Type="float" />
+    <Property Name="SecondaryMaterial" Type="float" />
+    <Property Name="CatID" Type="int" />
+  </EntityType>
+  <EntityType Name="tbStudent">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentID" Type="int" Nullable="false" />
+    <Property Name="StudentName" Type="varchar" MaxLength="250" />
+    <Property Name="StudentCat" Type="int" />
+    <Property Name="StudentContact" Type="nvarchar" MaxLength="50" />
+    <Property Name="subjCount" Type="int" />
+    <Property Name="transDPW" Type="int" />
+    <Property Name="ccStat" Type="int" />
+    <Property Name="mealStat" Type="int" />
+    <Property Name="StudentIC" Type="nvarchar" MaxLength="50" />
+    <Property Name="StudentNameC" Type="nvarchar" MaxLength="250" />
+    <Property Name="writingStat" Type="int" />
+    <Property Name="StudentStandard" Type="int" />
+    <Property Name="StudentStatus" Type="int" />
+  </EntityType>
+  <EntityType Name="tbSubject">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SubjectCodes" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="SubjectNames" Type="nvarchar" MaxLength="250" />
+    <Property Name="CatID" Type="int" />
+    <Property Name="IsChecked" Type="bit" Nullable="false" />
+    <Property Name="SubjectNameC" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="tbTransport">
+    <Key>
+      <PropertyRef Name="transDPW" />
+    </Key>
+    <Property Name="transDPW" Type="int" Nullable="false" />
+    <Property Name="transName" Type="nvarchar" MaxLength="100" />
+    <Property Name="transFee" Type="float" />
+  </EntityType>
+  <Association Name="FK_tbOutstanding_tbStudent">
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="0..1" />
+    <End Role="tbOutstanding" Type="Self.tbOutstanding" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbStudent">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tbOutstanding">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbPrimary_tbCategory">
+    <End Role="tbCategory" Type="Self.tbCategory" Multiplicity="0..1" />
+    <End Role="tbPrimary" Type="Self.tbPrimary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbPrimary">
+        <PropertyRef Name="CatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbReceipt_tbStudent">
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="0..1" />
+    <End Role="tbReceipt" Type="Self.tbReceipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbStudent">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tbReceipt">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbRegistration_tbStudent">
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="0..1" />
+    <End Role="tbRegistration" Type="Self.tbRegistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbStudent">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tbRegistration">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbSecondary_tbCategory">
+    <End Role="tbCategory" Type="Self.tbCategory" Multiplicity="0..1" />
+    <End Role="tbSecondary" Type="Self.tbSecondary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbSecondary">
+        <PropertyRef Name="CatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbCategory">
+    <End Role="tbCategory" Type="Self.tbCategory" Multiplicity="0..1" />
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="StudentCat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbPackage_cc">
+    <End Role="tbPackage" Type="Self.tbPackage" Multiplicity="0..1" />
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPackage">
+        <PropertyRef Name="PackageStat" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="ccStat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbPackage_meal">
+    <End Role="tbPackage" Type="Self.tbPackage" Multiplicity="0..1" />
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPackage">
+        <PropertyRef Name="PackageStat" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="mealStat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbPackage_writing">
+    <End Role="tbPackage" Type="Self.tbPackage" Multiplicity="0..1" />
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPackage">
+        <PropertyRef Name="PackageStat" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="writingStat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbParent">
+    <End Role="tbParent" Type="Self.tbParent" Multiplicity="1" />
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbParent">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbStudent_tbTransport">
+    <End Role="tbTransport" Type="Self.tbTransport" Multiplicity="0..1" />
+    <End Role="tbStudent" Type="Self.tbStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbTransport">
+        <PropertyRef Name="transDPW" />
+      </Principal>
+      <Dependent Role="tbStudent">
+        <PropertyRef Name="transDPW" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbSubject_tbCategory">
+    <End Role="tbCategory" Type="Self.tbCategory" Multiplicity="0..1" />
+    <End Role="tbSubject" Type="Self.tbSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCategory">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="tbSubject">
+        <PropertyRef Name="CatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetParentStudentDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="Ace_Tuition_WBLModelStoreContainer">
-    <EntitySet Name="tb_admin" EntityType="Self.tb_admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbAdmin" EntityType="Self.tbAdmin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbCategory" EntityType="Self.tbCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbOutstanding" EntityType="Self.tbOutstanding" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbPackage" EntityType="Self.tbPackage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbParent" EntityType="Self.tbParent" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbPrimary" EntityType="Self.tbPrimary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbReceipt" EntityType="Self.tbReceipt" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbRegistration" EntityType="Self.tbRegistration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbSecondary" EntityType="Self.tbSecondary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbStudent" EntityType="Self.tbStudent" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbSubject" EntityType="Self.tbSubject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbTransport" EntityType="Self.tbTransport" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tbOutstanding_tbStudent" Association="Self.FK_tbOutstanding_tbStudent">
+      <End Role="tbStudent" EntitySet="tbStudent" />
+      <End Role="tbOutstanding" EntitySet="tbOutstanding" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbPrimary_tbCategory" Association="Self.FK_tbPrimary_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategory" />
+      <End Role="tbPrimary" EntitySet="tbPrimary" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbReceipt_tbStudent" Association="Self.FK_tbReceipt_tbStudent">
+      <End Role="tbStudent" EntitySet="tbStudent" />
+      <End Role="tbReceipt" EntitySet="tbReceipt" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbRegistration_tbStudent" Association="Self.FK_tbRegistration_tbStudent">
+      <End Role="tbStudent" EntitySet="tbStudent" />
+      <End Role="tbRegistration" EntitySet="tbRegistration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbSecondary_tbCategory" Association="Self.FK_tbSecondary_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategory" />
+      <End Role="tbSecondary" EntitySet="tbSecondary" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbCategory" Association="Self.FK_tbStudent_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategory" />
+      <End Role="tbStudent" EntitySet="tbStudent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbPackage_cc" Association="Self.FK_tbStudent_tbPackage_cc">
+      <End Role="tbPackage" EntitySet="tbPackage" />
+      <End Role="tbStudent" EntitySet="tbStudent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbPackage_meal" Association="Self.FK_tbStudent_tbPackage_meal">
+      <End Role="tbPackage" EntitySet="tbPackage" />
+      <End Role="tbStudent" EntitySet="tbStudent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbPackage_writing" Association="Self.FK_tbStudent_tbPackage_writing">
+      <End Role="tbPackage" EntitySet="tbPackage" />
+      <End Role="tbStudent" EntitySet="tbStudent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbParent" Association="Self.FK_tbStudent_tbParent">
+      <End Role="tbParent" EntitySet="tbParent" />
+      <End Role="tbStudent" EntitySet="tbStudent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbStudent_tbTransport" Association="Self.FK_tbStudent_tbTransport">
+      <End Role="tbTransport" EntitySet="tbTransport" />
+      <End Role="tbStudent" EntitySet="tbStudent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbSubject_tbCategory" Association="Self.FK_tbSubject_tbCategory">
+      <End Role="tbCategory" EntitySet="tbCategory" />
+      <End Role="tbSubject" EntitySet="tbSubject" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -1,0 +1,65 @@
+﻿@*@model Ace_Tuition_WBL.Models.tbParent*@
+
+@{
+    //ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="card col-6">
+        <div class="card-header">
+            <h3 class="card-title, text-center">Email</h3>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Index", "Email", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group row">
+                        <label class="control-label col-md-1">To: </label>
+                        <p>Outstanding Users</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Subject:</label>
+                        <div class="col-md-8">
+                            @*@Html.TextBoxFor(model => model.subject, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.subject, "", new { @class = "text-danger" })*@
+                            <input class="form-group col-md-12" type="text" name="Subject" value="Payment is on due for this month" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Body:</label>
+                        <div class="col-md-12">
+                            @*@Html.TextAreaFor(model => model.message, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.message, "", new { @class = "text-danger" })*@
+                            <pre><textarea class="form-group col-md-12" type="text" name="Body" rows="15">This is a reminder that you have yet to pay invoice to our bank account.
+
+Please be aware that, according to the terms and condition of our business, you'll have to pay for the monthly fees for each of your children.
+PLEASE REFER THE TABLE BELOW AS THE DETAILS FOR YOUR PAYMENT AND VISIT OUR WEBSITE TO PROCEED THE PAYMENT.
+
+Again, if you have any questions regarding your payment, please reach out to me as soon as possible. If not, please make the payment immediately.
+
+Best Regards,
+ACE EDUCATION</textarea></pre>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Submit" style="margin:auto;display:block;" class="btn btn-info" />
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

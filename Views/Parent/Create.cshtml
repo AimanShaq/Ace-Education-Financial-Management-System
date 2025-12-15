@@ -1,0 +1,173 @@
+﻿@model Ace_Tuition_WBL.Models.tbParent
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+    List<Ace_Tuition_WBL.Models.tbStudent> listStd = db.tbStudents.ToList();
+
+}
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="card col-10">
+        <!-- /.card-header -->
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @*<h4>tbParent</h4>*@
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*@Html.HiddenFor(model => model.ID)*@
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">IC No:</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ParentIC, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParentIC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*@Html.EditorFor(model => model.ParentReg, new { htmlAttributes = new { @class = "form-control"  }, @Value = "1" })*@
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Parent Name</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ParentName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParentName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Parent Name (Chinese)</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ParentNameC, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParentNameC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ParentName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Email:</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ParentEmail, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParentEmail, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                        <div class="row">
+                            <label class="control-label col-md-2">Password:</label>
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type = "password", id = "pwd" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1">
+                                <a class="btn btn-warning" onmousedown="showpwd()" onmouseup="hidepwd()"><span class="fa fa-eye"></span></a>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <label class="control-label col-md-2">Confirm Password:</label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="password" id="ConfirmPassword" />
+                            </div>
+                        </div>
+                        <span id="message" style="color:red"> </span>
+                    </div>
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ParentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Contact No</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ParentContact, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParentContact, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-2">B40 Status:</label>
+                        <div class="col-md-2">
+                            <select class="form-control" id="b40" onchange="changetextbox()" onload="gettb()">
+
+                                <option value="0" selected>No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.B40Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @*@Html.LabelFor(model => model.ParentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">B40 Discount Rate (%):</label>
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.B40Status, new { htmlAttributes = new { @class = "form-control", id = "b40tb", @readonly = "readonly", @Value = "0", @max = "10" } })
+                            @Html.ValidationMessageFor(model => model.B40Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ParentAdress, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <label class="control-label col-md-2">Address</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ParentAdress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParentAdress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-1">
+                            <div class="col-md-offset-2 col-md-12">
+                                <input type="submit" value="Create" class="btn btn-success" id="btnSubmit"/>
+                            </div>
+                        </div>
+                        <div>
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <script type="text/javascript">
+                function showpwd() {
+                    document.getElementById("pwd").type = "text";
+                }
+                function hidepwd() {
+                    document.getElementById("pwd").type = "password";
+                }
+
+                function changetextbox() {
+                    if (document.getElementById("b40").value === "1") {
+                        document.getElementById("b40tb").style.display = 'block';
+                        document.getElementById("b40tb").disabled = false;
+                        document.getElementById("b40tb").removeAttribute('readonly');
+
+                    }
+                    else {
+                        document.getElementById("b40tb").style.display = 'none';
+                        document.getElementById("b40tb").disabled = false;
+                        document.getElementById("b40tb").removeAttribute('readonly');
+                        document.getElementById("b40tb").value = 0;
+                    }
+                }
+
+                $(function () {
+                    $("#btnSubmit").click(function () {
+                        var password = $("#pwd").val();
+                        var confirmPassword = $("#ConfirmPassword").val();
+                        if (password != confirmPassword) {
+                            alert("Passwords do not match.");
+                            return false;
+                        }
+                        return true;
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>

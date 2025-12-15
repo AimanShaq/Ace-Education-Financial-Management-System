@@ -1,0 +1,44 @@
+﻿@model Ace_Tuition_WBL.Models.tbRegistration
+
+@{
+    ViewBag.Title = "Delete";
+
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+    List<Ace_Tuition_WBL.Models.tbRegistration> listReg = db.tbRegistrations.ToList();
+
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tbStudent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectCode)
+        </dt>
+        @foreach (var itemlol in listReg.Where(x => x.StudentID == Model.StudentID))
+        {
+            <dd>@Html.DisplayFor(mitem => itemlol.SubjectCode) &nbsp </dd>
+        }
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="DeleteReg" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

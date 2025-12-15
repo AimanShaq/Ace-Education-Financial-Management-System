@@ -4,8 +4,31 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4c25102cac504df88757082ba5663235" Name="Diagram1">
-        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tb_admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="4202c6ce11674ef5af6b4ecbb97a4967" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbAdmin" Width="1.5" PointX="3.625" PointY="1.75" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbCategory" Width="1.5" PointX="8.375" PointY="4.625" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbParent" Width="1.5" PointX="3.375" PointY="3.5" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbPrimary" Width="1.5" PointX="9.625" PointY="7.625" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbReceipt" Width="1.5" PointX="10.125" PointY="3" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbRegistration" Width="1.5" PointX="8.375" PointY="1.875" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbSecondary" Width="1.5" PointX="11.5" PointY="7.75" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbStudent" Width="1.5" PointX="6" PointY="1.625" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbSubject" Width="1.5" PointX="12" PointY="5.25" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbTransport" Width="1.5" PointX="5.5" PointY="7.625" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbOutstanding" Width="1.5" PointX="3.375" PointY="6.875" />
+        <EntityTypeShape EntityType="Ace_Tuition_WBLModel.tbPackage" Width="1.5" PointX="7.625" PointY="7.875" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbPrimary_tbCategory" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbSecondary_tbCategory" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbStudent_tbCategory" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbSubject_tbCategory" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbOutstanding_tbStudent" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_cc" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_meal" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbStudent_tbParent" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbReceipt_tbStudent" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbRegistration_tbStudent" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbStudent_tbTransport" />
+        <AssociationConnector Association="Ace_Tuition_WBLModel.FK_tbStudent_tbPackage_writing" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

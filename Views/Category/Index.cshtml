@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Ace_Tuition_WBL.Models.tbCategory>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CatID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CatDesc)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatDesc)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CatID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CatID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CatID })
+            </td>
+        </tr>
+    }
+
+</table>

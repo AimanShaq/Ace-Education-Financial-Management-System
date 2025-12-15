@@ -1,0 +1,379 @@
+﻿@model Ace_Tuition_WBL.ViewModel.SubjectModel
+
+@{
+    ViewBag.Title = "EditReg";
+
+        //ViewBag.Title = "Index";
+        if (Session["User_Id"] == null)
+        {
+            //Redirect to Login Page if Session is null & Expires
+            new RedirectToRouteResult(new RouteValueDictionary { { "Index", "Index" }, { "Home", "Index" } });
+
+        }
+
+
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Register Subject</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @*<h4>tbStudent</h4>*@
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Studentget.StudentID)
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="control-label col-md-1">Student Name: </label>
+                        <div class="col-md-11">
+                            @Html.DisplayFor(model => model.Studentget.StudentName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="control-label col-md-1">Category: </label>
+                        <div class="col-md-11">
+
+                            @if (Model.Studentget.StudentCat == 1)
+                            {
+                                <p>Primary</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 2 && Model.Studentget.StudentStandard < 4)
+                            {
+                                <p>Lower Secondary</p>
+                            }
+                            else
+                            {
+                                <p>Upper Secondary</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="row">
+                        <label class="control-label col-md-1">Standard: </label>
+                        <div class="col-md-11">
+
+                            @if (Model.Studentget.StudentCat == 1 && Model.Studentget.StudentStandard == 1)
+                            {
+                                <p>Standard 1</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 1 && Model.Studentget.StudentStandard == 2)
+                            {
+                                <p>Standard 2</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 1 && Model.Studentget.StudentStandard == 3)
+                            {
+                                <p>Standard 3</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 1 && Model.Studentget.StudentStandard == 4)
+                            {
+                                <p>Standard 4</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 1 && Model.Studentget.StudentStandard == 5)
+                            {
+                                <p>Standard 5</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 1 && Model.Studentget.StudentStandard == 6)
+                            {
+                                <p>Standard 6</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 2 && Model.Studentget.StudentStandard == 1)
+                            {
+                                <p>Form 1</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 2 && Model.Studentget.StudentStandard == 2)
+                            {
+                                <p>Form 2</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 2 && Model.Studentget.StudentStandard == 3)
+                            {
+                                <p>Form 3</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 2 && Model.Studentget.StudentStandard == 4)
+                            {
+                                <p>Form 4</p>
+                            }
+                            else if (Model.Studentget.StudentCat == 2 && Model.Studentget.StudentStandard == 5)
+                            {
+                                <p>Form 5</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                        <table class="table table-striped table-hover col-6">
+                            <tr>
+                                <th>Select</th>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                                <th>Subject Name (Chinese)</th>
+                            </tr>
+                            @{ 
+                                int lol = Model.Subjectlist.Count();
+                            }
+
+                            @for (int i = 0; i < lol; i++)
+                            {
+                                if (Model.Subjectlist[i].CatID == Model.Studentget.StudentCat)
+                                {
+                                    if (Model.Studentget.StudentCat == 1) //darjah
+                                    {
+                                        <tr>
+                                            <td>
+                                                @foreach (var item in Model.reglist)
+                                                {
+                                                    if (item.SubjectCode == Model.Subjectlist[i].SubjectCodes)
+                                                    {
+                                                        Model.Subjectlist[i].IsChecked = true;
+                                                        @*@Html.CheckBoxFor(model => model.Subjectlist[i].IsChecked)*@
+                                                    }
+                                                
+                                                }
+                                                @Html.CheckBoxFor(model => model.Subjectlist[i].IsChecked)
+                                            
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectCodes
+
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectNames
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectNameC
+                                            </td>
+                                        </tr>
+                                    }
+                                    else if (Model.Studentget.StudentCat == 2 && Model.Studentget.StudentStandard < 4) //form1-3
+                                    {
+                                        if(i < 11) { 
+                                        <tr>
+                                            <td>
+                                                @foreach (var item in Model.reglist)
+                                                {
+                                                    if (item.SubjectCode == Model.Subjectlist[i].SubjectCodes)
+                                                    {
+                                                        Model.Subjectlist[i].IsChecked = true;
+                                                        @*@Html.CheckBoxFor(model => model.Subjectlist[i].IsChecked)*@
+                                                    }
+                                                
+                                                }
+                                                @Html.CheckBoxFor(model => model.Subjectlist[i].IsChecked)
+                                            
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectCodes
+
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectNames
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectNameC
+                                            </td>
+                                        </tr>
+                                        }
+                                    }
+                                    else //form 4-5 
+                                    {
+                                        if(i != 10) {
+                                        <tr>
+                                            <td>
+                                                @foreach (var item in Model.reglist)
+                                                {
+                                                    if (item.SubjectCode == Model.Subjectlist[i].SubjectCodes)
+                                                    {
+                                                        Model.Subjectlist[i].IsChecked = true;
+                                                        @*@Html.CheckBoxFor(model => model.Subjectlist[i].IsChecked)*@
+                                                    }
+                                                
+                                                }
+                                                @Html.CheckBoxFor(model => model.Subjectlist[i].IsChecked)
+                                            
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectCodes
+
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectNames
+                                            </td>
+                                            <td>
+                                                @Model.Subjectlist[i].SubjectNameC
+                                            </td>
+                                        </tr>
+                                        }
+
+                                    }
+
+                                }
+
+                                @Html.HiddenFor(model => model.Subjectlist[i].SubjectCodes)
+                                @Html.HiddenFor(model => model.Studentget.StudentID)
+                            }
+
+                        </table>
+                    <br />
+                    <div class="form-group row" style="margin: 5px">
+                        <label class="control-label col-md-2">Writing Class (BM + BI) : </label><div class="col-1"></div>
+                        <div class="col-md-2">
+                            <select @Html.EditorFor(model => model.Studentget.writingStat, new { htmlAttributes = new { @class = "form-control" } })>
+                                <option value="@Html.DisplayFor(model=>model.Studentget.writingStat)" selected>
+
+                                    Default:
+                                    @if (Model.Studentget.writingStat == 3)
+                                    {
+                                        <p>Yes</p>
+                                    }
+                                    else
+                                    {
+                                        <p>No</p>
+                                    }
+                                </option>
+                                <option value="0">No</option>
+                                <option value="3">Yes</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.Studentget.writingStat, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                <br />
+                    <div class="col-12">
+                        <div class="form-group row" style="margin: 1px">
+                            <label class="control-label col-md-3">Transportation : </label>
+                            <div class="col-md-2">
+                                <select class="form-control" id="b40" onchange="changetextbox()">
+                                    <option value="@Html.DisplayFor(model=>model.Studentget.transDPW)" selected disabled>
+
+                                        Default:
+                                        @if (Model.Studentget.transDPW == 0)
+                                        {
+                                            <p>No</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Yes</p>
+                                        }
+                                    </option>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.Studentget.transDPW, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row">
+                            @*@Html.LabelFor(model => model.ParentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <label class="control-label col-md-3" style="margin:8px">Transportation Days per Week :</label>
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.Studentget.transDPW, new { htmlAttributes = new { @class = "form-control", id = "b40tb", @readonly = "readonly", @max = "5" } })
+                                @Html.ValidationMessageFor(model => model.Studentget.transDPW, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row" style="margin: 1px">
+                            <label class="control-label col-md-2">ChildCare : </label><div class="col-1"></div>
+                            <div class="col-md-2">
+                                <select @Html.EditorFor(model => model.Studentget.ccStat, new { htmlAttributes = new { @class = "form-control" } })>
+                                    <option value="@Html.DisplayFor(model=>model.Studentget.ccStat)" selected>
+
+                                        Default:
+                                        @if (Model.Studentget.ccStat == 2)
+                                        {
+                                            <p>Yes</p>
+                                        }
+                                        else
+                                        {
+                                            <p>No</p>
+                                        }
+                                    </option>
+                                    <option value="0">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.Studentget.ccStat, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row" style="margin: 1px">
+                            <label class="control-label col-md-2">Meal : </label>
+                            <div class="col-1"></div>
+                            <div class="col-md-2">
+                                <select @Html.EditorFor(model => model.Studentget.mealStat, new { htmlAttributes = new { @class = "form-control" } })>
+                                    <option value="@Html.DisplayFor(model=>model.Studentget.mealStat)" selected>
+
+                                        Default:
+                                        @if (Model.Studentget.mealStat == 1)
+                                        {
+                                            <p>Yes</p>
+                                        }
+                                        else
+                                        {
+                                            <p>No</p>
+                                        }
+                                    </option>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.Studentget.mealStat, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function changetextbox() {
+        if (document.getElementById("b40").value === "0") {
+            document.getElementById("b40tb").style.display = 'none';
+            document.getElementById("b40tb").disabled = false;
+            document.getElementById("b40tb").removeAttribute('readonly');
+            document.getElementById("b40tb").value = 0;
+        }
+        else {
+            document.getElementById("b40tb").style.display = 'block';
+            document.getElementById("b40tb").disabled = false;
+            document.getElementById("b40tb").removeAttribute('readonly');
+
+        }
+    }
+</script>
+<script>
+    $("[id$='SubmitBtn']").click(function () {
+        var ISBN = [];
+        var count = 0;
+        $("[id$='LocationDataList'] input[type=checkbox]:checked").each(function () {
+            ISBN.push($(this).val());
+            count = count + 1;
+        });
+        if (count > 10) {
+            alert('You selected more than 10 locations');
+            return false;
+        }
+        else {
+            $("[id$='HiddenField1']").val(ISBN);
+            return true;
+        }
+    });
+</script>

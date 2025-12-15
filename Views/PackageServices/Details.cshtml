@@ -1,0 +1,43 @@
+﻿@model Ace_Tuition_WBL.Models.tbPackage
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tbPackage</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageFee)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PackageStat }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

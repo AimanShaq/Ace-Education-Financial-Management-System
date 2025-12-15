@@ -1,0 +1,176 @@
+﻿@model Ace_Tuition_WBL.Models.tbReceipt
+
+@{
+    Layout = "~/Views/Shared/_LayoutParent.cshtml";
+}
+
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "ParentPayment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceiptID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReceiptID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ParentID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceiptTotal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptTotal, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReceiptTotal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.ParentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <label class="control-label col-md-2">Receipt Amount</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReceiptAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StudentID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StudentID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceiptDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.ReceiptDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.ParentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <label class="control-label col-md-2">Receipt Discount</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptDiscount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReceiptDiscount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.ParentContact, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <label class="control-label col-md-2">Receipt Description</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptDesc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReceiptDesc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.siblingCount, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <label class="control-label col-md-2">Payment Proof</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptProof, new { htmlAttributes = new { @type = "file", id = "file", onchange = "return fileValidation()" } })
+                @Html.ValidationMessageFor(model => model.ReceiptProof, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div id="imagePreview"></div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Receipt Status</label>
+            @*@Html.LabelFor(model => model.B40Status, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceiptStatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReceiptStatus, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="Create" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to History", "Index")
+</div>
+
+<script type="text/javascript">
+        function fileValidation() {
+            var fileInput =
+                document.getElementById('file');
+
+            const fi = document.getElementById('file');
+
+            var filePath = fileInput.value;
+
+            // Allowing file type
+            var allowedExtensions =
+                    /(\.jpg|\.jpeg|\.png)$/i;
+
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type, please upload a valid file.');
+                fileInput.value = '';
+                return false;
+            }
+            else
+            {
+                if (fi.files.length > 0)
+                {
+                    for (const i = 0; i <= fi.files.length - 1; i++)
+                    {
+
+                        const fsize = fi.files.item(i).size;
+                        const file = Math.round(fsize);
+
+                        // The size of the file.
+                        if (file >= 131072)
+                        {
+                            alert("File too Big, please select a file less than 128Kb");
+                            fileInput.value = '';
+                            return false;
+                        }
+                        else
+                        {
+                            // Image preview
+                            if (fileInput.files && fileInput.files[0])
+                            {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    document.getElementById(
+                                        'imagePreview').innerHTML =
+                                        '<img src="' + e.target.result + '" style="width:500px;height:500px;" class="center"/>';
+                                };
+
+                                reader.readAsDataURL(fileInput.files[0]);
+                            }
+
+                            return filePath;
+                        }
+                    }
+                }
+            }
+        }
+</script>
+

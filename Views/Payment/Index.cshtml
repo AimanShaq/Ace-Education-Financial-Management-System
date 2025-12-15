@@ -1,0 +1,221 @@
+﻿@model IEnumerable<Ace_Tuition_WBL.Models.tbReceipt>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="card">
+    <div class="card-header bg-warning">
+        <h3 class="card-title">Outstanding Payment List</h3>
+    </div>
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            <div class="col-10">
+                @using (Html.BeginForm("Index", "Payment", FormMethod.Post, new { @class = "row" }))
+                {
+                    <select id="Month" name="Month" class="form-control col-2" type="button" data-toggle="dropdown">
+                        <option selected value="0">---Select---</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">Disember</option>
+                    </select>
+                            
+                    <input type="submit" value="Filter" style="margin-left:10px" class="btn btn-primary dropdown-toggle" />
+                }
+            </div>
+            <div class="col-2" style="text-align:right">
+                <p align="right">
+                    <a class="btn btn-danger" href="@Url.Action("Index","Email")"><span class="fa fa-bell"></span> Notify (Email)</a>
+                </p>
+            </div>
+        </div>
+        <table id="example1" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Bill Date</th>
+                    <th>Student IC</th>
+                    <th>Student Name</th>
+                    <th>Student Category</th>
+                    <th>Total Fee</th>
+                    <th>Amount Pay</th>
+                    <th>Receipt Date</th>
+                    <th>Payment Status</th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(item => item.ReceiptStatus < 2))
+                {
+                    <tr>
+                        <td>
+                            @String.Format("{0:dd/MM/yyyy}", item.BillDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tbStudent.StudentIC)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tbStudent.StudentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tbStudent.tbCategory.CatDesc)
+                        </td>
+                        <td>
+                            @*RM @Html.DisplayFor(modelItem => item.ReceiptTotal);*@
+                            RM @String.Format("{0:0.00}", item.ReceiptTotal)
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.ReceiptAmount)*@
+                            RM @String.Format("{0:0.00}", item.ReceiptAmount)
+                        </td>
+                        <td>
+                            @String.Format("{0:dd/MM/yyyy}", item.ReceiptDate)
+                        </td>
+                        <td>
+                            @if (item.ReceiptStatus == 0)
+                            {
+                                <p style="color: orange">Outstanding</p>
+                            }
+                            else if (item.ReceiptStatus == 1)
+                            {
+                                <p style="color: deepskyblue">Pending Approval</p>
+                            }
+                            else if (item.ReceiptStatus == 2)
+                            {
+                                <p style="color: lawngreen">Accepted</p>
+                            }
+                            else if (item.ReceiptStatus == 3)
+                            {
+                                <p style="color: red">Rejected</p>
+                            }
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.ReceiptID }, new { @class = "btn btn-success" })*@
+                            @Html.ActionLink("Details", "Details", new { id = item.ReceiptID }, new { @class = "btn btn-warning" })
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.ReceiptID }, new { @class = "btn btn-danger" })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-success">
+        <h3 class="card-title">Accepted Payment List</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Bill Date</th>
+                    <th>Student IC</th>
+                    <th>Student Name</th>
+                    <th>Student Category</th>
+                    <th>Total Fee</th>
+                    <th>Amount Pay</th>
+                    <th>Receipt Date</th>
+                    <th>Payment Status</th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(item => item.ReceiptStatus == 2))
+                {
+                    <tr>
+                        <td>
+                            @String.Format("{0:dd/MM/yyyy}", item.BillDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tbStudent.StudentIC)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tbStudent.StudentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tbStudent.tbCategory.CatDesc)
+                        </td>
+                        <td>
+                            @*RM @Html.DisplayFor(modelItem => item.ReceiptTotal);*@
+                            RM @String.Format("{0:0.00}", item.ReceiptTotal)
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.ReceiptAmount)*@
+                            RM @String.Format("{0:0.00}", item.ReceiptAmount)
+                        </td>
+                        <td>
+                            @String.Format("{0:dd/MM/yyyy}", item.ReceiptDate)
+                        </td>
+                        <td>
+                            @if (item.ReceiptStatus == 0)
+                            {
+                                <p style="color: orange">Outstanding</p>
+                            }
+                            else if (item.ReceiptStatus == 1)
+                            {
+                                <p style="color: deepskyblue">Pending Approval</p>
+                            }
+                            else if (item.ReceiptStatus == 2)
+                            {
+                                <p style="color: lawngreen">Accepted</p>
+                            }
+                            else if (item.ReceiptStatus == 3)
+                            {
+                                <p style="color: red">Rejected</p>
+                            }
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.ReceiptID }, new { @class = "btn btn-success" })*@
+                            @Html.ActionLink("Details", "Details", new { id = item.ReceiptID }, new { @class = "btn btn-warning" })
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.ReceiptID }, new { @class = "btn btn-danger" })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+
+}
+
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false, "ordering": true,
+            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $("#example2").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false, "ordering": true,
+            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+        }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+
+    });
+</script>

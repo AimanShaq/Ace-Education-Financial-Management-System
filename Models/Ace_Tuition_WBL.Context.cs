@@ -12,6 +12,8 @@ namespace Ace_Tuition_WBL.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Ace_Tuition_WBLEntities1 : DbContext
     {
@@ -25,6 +27,22 @@ namespace Ace_Tuition_WBL.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tb_admin> tb_admin { get; set; }
+        public virtual DbSet<tbAdmin> tbAdmins { get; set; }
+        public virtual DbSet<tbCategory> tbCategories { get; set; }
+        public virtual DbSet<tbParent> tbParents { get; set; }
+        public virtual DbSet<tbPrimary> tbPrimaries { get; set; }
+        public virtual DbSet<tbReceipt> tbReceipts { get; set; }
+        public virtual DbSet<tbRegistration> tbRegistrations { get; set; }
+        public virtual DbSet<tbSecondary> tbSecondaries { get; set; }
+        public virtual DbSet<tbStudent> tbStudents { get; set; }
+        public virtual DbSet<tbSubject> tbSubjects { get; set; }
+        public virtual DbSet<tbTransport> tbTransports { get; set; }
+        public virtual DbSet<tbOutstanding> tbOutstandings { get; set; }
+        public virtual DbSet<tbPackage> tbPackages { get; set; }
+    
+        public virtual ObjectResult<GetParentStudentDetails_Result> GetParentStudentDetails()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetParentStudentDetails_Result>("GetParentStudentDetails");
+        }
     }
 }

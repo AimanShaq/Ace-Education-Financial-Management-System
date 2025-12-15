@@ -1,14 +1,167 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Ace_Tuition_WBLModelStoreContainer" CdmEntityContainer="Ace_Tuition_WBLEntities1">
-    <EntitySetMapping Name="tb_admin">
-      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tb_admin">
-        <MappingFragment StoreEntitySet="tb_admin">
-          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+    <EntitySetMapping Name="tbAdmins">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbAdmin">
+        <MappingFragment StoreEntitySet="tbAdmin">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="User_Name" ColumnName="User_Name" />
-          <ScalarProperty Name="User_Password" ColumnName="User_Password" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tbCategories">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbCategory">
+        <MappingFragment StoreEntitySet="tbCategory">
+          <ScalarProperty Name="CatDesc" ColumnName="CatDesc" />
+          <ScalarProperty Name="CatID" ColumnName="CatID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbParents">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbParent">
+        <MappingFragment StoreEntitySet="tbParent">
+          <ScalarProperty Name="ParentNameC" ColumnName="ParentNameC" />
+          <ScalarProperty Name="ParentEmail" ColumnName="ParentEmail" />
+          <ScalarProperty Name="ParentReg" ColumnName="ParentReg" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ParentIC" ColumnName="ParentIC" />
+          <ScalarProperty Name="ParentAdress" ColumnName="ParentAdress" />
+          <ScalarProperty Name="siblingCount" ColumnName="siblingCount" />
+          <ScalarProperty Name="B40Status" ColumnName="B40Status" />
+          <ScalarProperty Name="ParentContact" ColumnName="ParentContact" />
+          <ScalarProperty Name="ParentName" ColumnName="ParentName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbPrimaries">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbPrimary">
+        <MappingFragment StoreEntitySet="tbPrimary">
+          <ScalarProperty Name="CatID" ColumnName="CatID" />
+          <ScalarProperty Name="PrimaryMaterial" ColumnName="PrimaryMaterial" />
+          <ScalarProperty Name="PrimaryFee" ColumnName="PrimaryFee" />
+          <ScalarProperty Name="PrimaryID" ColumnName="PrimaryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbReceipts">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbReceipt">
+        <MappingFragment StoreEntitySet="tbReceipt">
+          <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+          <ScalarProperty Name="ReceiptOutstanding" ColumnName="ReceiptOutstanding" />
+          <ScalarProperty Name="ReceiptStatus" ColumnName="ReceiptStatus" />
+          <ScalarProperty Name="firstReg" ColumnName="firstReg" />
+          <ScalarProperty Name="earlyPay" ColumnName="earlyPay" />
+          <ScalarProperty Name="ReceiptProof" ColumnName="ReceiptProof" />
+          <ScalarProperty Name="ReceiptDesc" ColumnName="ReceiptDesc" />
+          <ScalarProperty Name="ReceiptDiscount" ColumnName="ReceiptDiscount" />
+          <ScalarProperty Name="ReceiptDate" ColumnName="ReceiptDate" />
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="ReceiptAmount" ColumnName="ReceiptAmount" />
+          <ScalarProperty Name="ReceiptTotal" ColumnName="ReceiptTotal" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="ReceiptID" ColumnName="ReceiptID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbRegistrations">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbRegistration">
+        <MappingFragment StoreEntitySet="tbRegistration">
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="SubjectCode" ColumnName="SubjectCode" />
+          <ScalarProperty Name="RegID" ColumnName="RegID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbSecondaries">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbSecondary">
+        <MappingFragment StoreEntitySet="tbSecondary">
+          <ScalarProperty Name="CatID" ColumnName="CatID" />
+          <ScalarProperty Name="SecondaryMaterial" ColumnName="SecondaryMaterial" />
+          <ScalarProperty Name="SecondaryFee" ColumnName="SecondaryFee" />
+          <ScalarProperty Name="SecondaryID" ColumnName="SecondaryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbStudents">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbStudent">
+        <MappingFragment StoreEntitySet="tbStudent">
+          <ScalarProperty Name="StudentStatus" ColumnName="StudentStatus" />
+          <ScalarProperty Name="StudentStandard" ColumnName="StudentStandard" />
+          <ScalarProperty Name="writingStat" ColumnName="writingStat" />
+          <ScalarProperty Name="StudentNameC" ColumnName="StudentNameC" />
+          <ScalarProperty Name="StudentIC" ColumnName="StudentIC" />
+          <ScalarProperty Name="mealStat" ColumnName="mealStat" />
+          <ScalarProperty Name="ccStat" ColumnName="ccStat" />
+          <ScalarProperty Name="transDPW" ColumnName="transDPW" />
+          <ScalarProperty Name="subjCount" ColumnName="subjCount" />
+          <ScalarProperty Name="StudentContact" ColumnName="StudentContact" />
+          <ScalarProperty Name="StudentCat" ColumnName="StudentCat" />
+          <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbSubjects">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbSubject">
+        <MappingFragment StoreEntitySet="tbSubject">
+          <ScalarProperty Name="SubjectNameC" ColumnName="SubjectNameC" />
+          <ScalarProperty Name="IsChecked" ColumnName="IsChecked" />
+          <ScalarProperty Name="SubjectCodes" ColumnName="SubjectCodes" />
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="CatID" ColumnName="CatID" />
+          <ScalarProperty Name="SubjectNames" ColumnName="SubjectNames" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbTransports">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbTransport">
+        <MappingFragment StoreEntitySet="tbTransport">
+          <ScalarProperty Name="transFee" ColumnName="transFee" />
+          <ScalarProperty Name="transName" ColumnName="transName" />
+          <ScalarProperty Name="transDPW" ColumnName="transDPW" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbOutstandings">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbOutstanding">
+        <MappingFragment StoreEntitySet="tbOutstanding">
+          <ScalarProperty Name="OutDetail" ColumnName="OutDetail" />
+          <ScalarProperty Name="OutStatus" ColumnName="OutStatus" />
+          <ScalarProperty Name="OutFee" ColumnName="OutFee" />
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="OutMonth" ColumnName="OutMonth" />
+          <ScalarProperty Name="OutID" ColumnName="OutID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbPackages">
+      <EntityTypeMapping TypeName="Ace_Tuition_WBLModel.tbPackage">
+        <MappingFragment StoreEntitySet="tbPackage">
+          <ScalarProperty Name="PackageFee" ColumnName="PackageFee" />
+          <ScalarProperty Name="PackageDesc" ColumnName="PackageDesc" />
+          <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+          <ScalarProperty Name="PackageStat" ColumnName="PackageStat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetParentStudentDetails" FunctionName="Ace_Tuition_WBLModel.Store.GetParentStudentDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Ace_Tuition_WBLModel.GetParentStudentDetails_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ParentName" ColumnName="ParentName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ParentContact" ColumnName="ParentContact" />
+          <ScalarProperty Name="B40Status" ColumnName="B40Status" />
+          <ScalarProperty Name="siblingCount" ColumnName="siblingCount" />
+          <ScalarProperty Name="ParentAdress" ColumnName="ParentAdress" />
+          <ScalarProperty Name="ParentIC" ColumnName="ParentIC" />
+          <ScalarProperty Name="ParentReg" ColumnName="ParentReg" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

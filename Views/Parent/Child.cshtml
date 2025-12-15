@@ -1,0 +1,149 @@
+﻿@model IEnumerable<Ace_Tuition_WBL.ViewModel.StudentParent>
+
+@{
+    ViewBag.Title = "Child";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var data = ViewData["id"];
+    var name = ViewData["Name"];
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title" style="font-size:24px">@name's Child List</h2>
+        <p align="right"> @Html.ActionLink("Add Child", "AddChild", "Parent", new { id = data }, new { @class = "btn btn-success" })  </p>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-striped table-hover">
+            <tr>
+                <th>Student Name</th>
+                <th>Name (Chinese)</th>
+                <th>IC No.</th>
+
+                <th>Category</th>
+                <th>Student Contact</th>
+                <th>Subject Count</th>
+                <th>Transportation</th>
+                <th>ChildCare</th>
+                <th>Meal</th>
+                <th>Manage</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                if (item.parentdetail.ID == null)
+                {
+                    <tr></tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@item.studentdetail.StudentName</td>
+                        <td>@item.studentdetail.StudentNameC</td>
+                        <td>@item.studentdetail.StudentIC</td>
+                        @*<td>@if (item.studentdetail.StudentCat==1)
+                            {
+                                <p>Primary</p>
+                            }
+                            else
+                            {
+                                <p>Secondary</p>
+                            }
+                        </td>*@
+                        <td>
+                            @if (item.studentdetail.StudentCat == 1 && item.studentdetail.StudentStandard == 1)
+                            {
+                                <p>Standard 1</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 1 && item.studentdetail.StudentStandard == 2)
+                            {
+                                <p>Standard 2</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 1 && item.studentdetail.StudentStandard == 3)
+                            {
+                                <p>Standard 3</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 1 && item.studentdetail.StudentStandard == 4)
+                            {
+                                <p>Standard 4</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 1 && item.studentdetail.StudentStandard == 5)
+                            {
+                                <p>Standard 5</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 1 && item.studentdetail.StudentStandard == 6)
+                            {
+                                <p>Standard 6</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 2 && item.studentdetail.StudentStandard == 1)
+                            {
+                            <p>Form 1</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 2 && item.studentdetail.StudentStandard == 2)
+                            {
+                            <p>Form 2</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 2 && item.studentdetail.StudentStandard == 3)
+                            {
+                            <p>Form 3</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 2 && item.studentdetail.StudentStandard == 4)
+                            {
+                            <p>Form 4</p>
+                            }
+                            else if (item.studentdetail.StudentCat == 2 && item.studentdetail.StudentStandard == 5)
+                            {
+                            <p>Form 5</p>
+                            }
+
+                        </td>
+                        <td>@item.studentdetail.StudentContact</td>
+                        <td>@item.studentdetail.subjCount</td>
+                        <td>
+                            @if (item.studentdetail.transDPW == 1)
+                            {
+                                <p>Yes</p>
+                            }
+                            else
+                            {
+                                <p>No</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.studentdetail.ccStat == 1)
+                            {
+                                <p>Yes</p>
+                            }
+                            else
+                            {
+                                <p>No</p>
+                            }
+                        </td>
+                        <td>
+                            @if (item.studentdetail.mealStat == 1)
+                            {
+                                <p>Yes</p>
+                            }
+                            else
+                            {
+                                <p>No</p>
+                            }
+                        </td>
+                        <td>
+                             @Html.ActionLink("Register", "../Student/EditReg", new { id = item.studentdetail.StudentID }, new { @class = "btn btn-success" })
+                            @Html.ActionLink("Edit Details", "EditChild", new { id = item.studentdetail.StudentID, pid = item.parentdetail.ID }, new {@class = "btn btn-warning" } )
+                            @*@Html.ActionLink("Details", "DetailsChild", new { id = item.studentdetail.StudentID }) |*@
+                            @*@Html.ActionLink("Delete", "DeleteChild", new { id = item.studentdetail.StudentID }, new { @class = "btn btn-danger" })*@
+                        </td>
+                    </tr>
+                }
+
+            }
+
+        </table>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index","Parent", null, new { @class = "btn btn-info" })
+</div>

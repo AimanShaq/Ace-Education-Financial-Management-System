@@ -1,0 +1,356 @@
+﻿@model Ace_Tuition_WBL.Models.tbParent
+
+@{
+    ViewBag.Title = "ParentDashBoard";
+    Layout = "~/Views/Shared/_LayoutParent.cshtml";
+    if (Session["ParentID"] == null)
+    {
+        Response.Redirect("Index");
+    }
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+    List<Ace_Tuition_WBL.Models.tbOutstanding> outList = db.tbOutstandings.ToList();
+    List<Ace_Tuition_WBL.Models.tbStudent> stuList = db.tbStudents.ToList();
+    List<Ace_Tuition_WBL.Models.tbReceipt> receiptList = db.tbReceipts.ToList();
+
+    var sessionassign = Session["ParentID"];
+    List<Ace_Tuition_WBL.Models.tbParent> parent = db.tbParents.ToList();
+
+    Ace_Tuition_WBL.Models.tbParent par = parent.Where(x => x.ParentIC == (string)sessionassign || x.ParentEmail == (string)sessionassign).FirstOrDefault();
+
+
+    int parentid = par.ID;
+}
+
+<h2 class="m-0">Dashboard</h2>
+
+<script type="text/javascript">
+    $(window).on('load', function () {
+        if (sessionStorage.getItem('popState') != 'shown') {
+            $('#modal-lg').modal('show');
+            sessionStorage.setItem('popState', 'shown')
+        }
+    });
+</script>
+
+<br />
+@if (Session["ParentID"] != null)
+{
+    float parentOutstanding = 0;
+    float receiptOutstanding = 0;
+    float totalOutstanding = 0;
+
+    for (int i = 0; i <= outList.Count(x => x.ParentID == parentid); i++)
+    {
+        foreach (var item in db.tbOutstandings.Where(x => x.ParentID == parentid))
+        {
+            if (item.OutFee != null)
+            {
+                parentOutstanding = parentOutstanding + (float)item.OutFee;
+                i++;
+            }
+            else
+            {
+                i++;
+            }
+        }
+    }
+
+    totalOutstanding = receiptOutstanding + parentOutstanding;
+    int date = (int)System.DateTime.Now.Day;
+
+    if (totalOutstanding > 0 && date < 15)
+    {
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Notification</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Good day @Convert.ToString(Session["ParentName"])! We found that there is outstanding amount around <strong>RM @String.Format("{0:0.00}", totalOutstanding)</strong> exist under your account, please clear the payment <strong>before 14 of the month</strong> to enjoy Early Pay Discount. Thank you!</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    }
+    else if (totalOutstanding > 0 && date > 14)
+    {
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Hello @Convert.ToString(Session["ParentName"]) !</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Good day @Convert.ToString(Session["ParentName"])! We found that there is outstanding amount around <strong>RM @String.Format("{0:0.00}", totalOutstanding)</strong> exist under your account, please clear your outstanding at <strong>Payment > Manage Pending</strong> section. Thank you!</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    }
+}
+
+<br />
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-graduate"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Number of Student</span>
+                <span class="info-box-number">
+                    @if (Session["ParentID"] != null)
+                    {
+                        int siblingCount = 0;
+
+                        for (int i = 0; i < stuList.Count(x => x.ParentID == parentid); i++)
+                        {
+                            siblingCount = siblingCount + 1;
+
+                        }
+                        <span class="info-box-number">@siblingCount</span>
+                    }
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-bill"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Pending Fee</span>
+
+                @if (Session["ParentID"] != null)
+                {
+                    float parentOutstanding = 0;
+                    float receiptOutstanding = 0;
+                    float totalOutstanding = 0;
+
+                    for (int i = 0; i <= outList.Count(x => x.ParentID == parentid); i++)
+                    {
+                        foreach (var item in db.tbOutstandings.Where(x => x.ParentID == parentid))
+                        {
+                            if (item.OutFee != null)
+                            {
+                                parentOutstanding = parentOutstanding + (float)item.OutFee;
+                                i++;
+                            }
+                            else
+                            {
+                                i++;
+                            }
+                        }
+                    }
+
+                    totalOutstanding = receiptOutstanding + parentOutstanding;
+                    <span class="info-box-number" id="outstanding">RM @String.Format("{0:0.00}", totalOutstanding)</span>
+                }
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Payment Made</span>
+                @if (Session["ParentID"] != null)
+                {
+                    float paid = 0;
+
+                    for (int i = 0; i < receiptList.Count(x => x.ParentID == parentid && x.ReceiptStatus == 2) + 1; i++)
+                    {
+                        foreach (var item in db.tbReceipts.Where(x => x.ParentID == parentid && x.ReceiptStatus == 2))
+                        {
+                            if (item.ReceiptAmount != null)
+                            {
+                                paid = paid + (float)item.ReceiptAmount;
+                                i++;
+                            }
+                            else
+                            {
+                                i++;
+                            }
+                        }
+                    }
+                    <span class="info-box-number">RM @String.Format("{0:0.00}", paid)</span>
+                }
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-hourglass-half"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Pending Approval Payment</span>
+                @if (Session["ParentID"] != null)
+                {
+                    int inProgress = 0;
+
+                    for (int i = 0; i < receiptList.Count(x => x.ParentID == parentid && x.ReceiptStatus == 1); i++)
+                    {
+                        inProgress = inProgress + 1;
+
+                    }
+
+
+                    <span class="info-box-number">@inProgress in Progress</span>
+                }
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Summary</h5>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block border-right">
+                            @if (Session["ParentID"] != null)
+                            {
+                                int count = 0;
+
+                                for (int i = 0; i < stuList.Count(x => x.ParentID == parentid && x.tbCategory.CatDesc == "Primary"); i++)
+                                {
+                                    count = count + 1;
+
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">PRIMARY STUDENT</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block border-right">
+                            @if (Session["ParentID"] != null)
+                            {
+                                int count = 0;
+
+                                for (int i = 0; i < stuList.Count(x => x.ParentID == parentid && x.tbCategory.CatDesc == "Secondary"); i++)
+                                {
+                                    count = count + 1;
+
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">SECONDARY STUDENT</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block">
+                            @if (Session["ParentID"] != null)
+                            {
+                                int count = 0;
+
+                                for (int i = 0; i <= stuList.Count(x => x.ParentID == parentid); i++)
+                                {
+                                    foreach (var item in db.tbStudents.Where(x => x.ParentID == parentid))
+                                    {
+                                        if (item.ccStat != 0 || item.mealStat != 0 || item.transDPW != 0)
+                                        {
+                                            count = count + 1;
+                                        }
+                                    }
+                                    i++;
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">STUDENT SUBSCRIBED SERVICE</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <table id="example1" class="table table-flush table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Student Name</th>
+                                    <th style="text-align:center">Student Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in db.tbStudents.Where(x => x.ParentID == parentid))
+                                {
+                                    <tr>
+                                        @foreach (var outstanding in db.tbOutstandings.Where(x => x.ParentID == parentid))
+                                        {
+                                            if (outstanding.StudentID == item.StudentID && outstanding.OutFee != null)
+                                            {
+                                                <td>@item.StudentName &nbsp;<small class="badge badge-warning"><i class="fas fa-exclamation"></i> Outstanding exists</small></td>
+                                            }
+                                            else
+                                            {
+                                                <td>@item.StudentName</td>
+                                            }
+                                        }
+                                        <td style="text-align:center">
+                                            <a class="btn btn-primary" href="@Url.Action("Details","ParentStudent", new {id = item.StudentID })" role="button" style="align-self:center">
+                                                View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- ./card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->

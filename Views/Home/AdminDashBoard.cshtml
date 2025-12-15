@@ -1,0 +1,823 @@
+﻿@{
+    //ViewBag.Title = "AdminDashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["User_Id"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1 db = new Ace_Tuition_WBL.Models.Ace_Tuition_WBLEntities1();
+    List<Ace_Tuition_WBL.Models.tbOutstanding> outList = db.tbOutstandings.ToList();
+    List<Ace_Tuition_WBL.Models.tbStudent> stuList = db.tbStudents.ToList();
+    List<Ace_Tuition_WBL.Models.tbReceipt> receiptList = db.tbReceipts.ToList();
+    List<Ace_Tuition_WBL.Models.tbParent> parentList = db.tbParents.ToList();
+    List<Ace_Tuition_WBL.Models.tbSubject> primaryList = db.tbSubjects.Where(x => x.tbCategory.CatID == 1).ToList();
+    List<Ace_Tuition_WBL.Models.tbSubject> secondaryList = db.tbSubjects.Where(x => x.tbCategory.CatID == 2).ToList();
+
+    var jan = ViewData["jan"];
+    var feb = ViewData["feb"];
+    var mac = ViewData["mac"];
+    var apr = ViewData["apr"];
+    var may = ViewData["may"];
+    var june = ViewData["june"];
+    var july = ViewData["july"];
+    var aug = ViewData["aug"];
+    var sept = ViewData["sept"];
+    var oct = ViewData["oct"];
+    var nov = ViewData["nov"];
+    var dis = ViewData["dis"];
+
+    var out_jan = ViewData["out_jan"];
+    var out_feb = ViewData["out_feb"];
+    var out_mac = ViewData["out_mac"];
+    var out_apr = ViewData["out_apr"];
+    var out_may = ViewData["out_may"];
+    var out_june = ViewData["out_june"];
+    var out_july = ViewData["out_july"];
+    var out_aug = ViewData["out_aug"];
+    var out_sept = ViewData["out_sept"];
+    var out_oct = ViewData["out_oct"];
+    var out_nov = ViewData["out_nov"];
+    var out_dis = ViewData["out_dis"];
+}
+
+<h2 class="m-0">Dashboard</h2>
+<br />
+
+<script type="text/javascript">
+    $(window).on('load', function () {
+        if (sessionStorage.getItem('popState') != 'shown') {
+            $('#modal-lg').modal('show');
+            sessionStorage.setItem('popState', 'shown')
+        }
+    });
+</script>
+
+@if (Session["User_Id"] != null)
+{
+    int inProgress = 0;
+
+    foreach (var stu in db.tbReceipts.Where(x => x.ReceiptStatus == 1))
+    {
+        inProgress = inProgress + 1;
+    }
+
+    if (inProgress > 0)
+    {
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Notification</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>You have <strong>@inProgress</strong> payment to be reviewed. Please go to <strong>Payment > Payment List</strong> to review the payment.</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    }
+}
+
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-graduate"></i></span>
+
+            <div class="info-box-content">
+                <div class="info-box-content">
+                    <span class="info-box-text">Number of Student</span>
+                    <span class="info-box-number">
+                        @if (Session["User_Id"] != null)
+                        {
+                            int count = 0;
+
+                            foreach (var stu in db.tbStudents)
+                            {
+                                count = count + 1;
+                            }
+                            <span class="info-box-number">@count</span>
+                        }
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-bill"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Outstanding To Collect</span>
+
+                @if (Session["User_Id"] != null)
+                {
+                    float parentOutstanding = 0;
+                    float receiptOutstanding = 0;
+                    float totalOutstanding = 0;
+
+                    foreach (var item in db.tbOutstandings.Where(x => x.OutStatus == 1))
+                    {
+                        parentOutstanding = parentOutstanding + (float)item.OutFee;
+                    }
+
+                    totalOutstanding = receiptOutstanding + parentOutstanding;
+                    <span class="info-box-number">RM @String.Format("{0:0.00}", totalOutstanding)</span>
+                }
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-file-invoice-dollar"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Payment Received</span>
+                @if (Session["User_Id"] != null)
+                {
+                    float paid = 0;
+
+
+                    for (int i = 0; i < receiptList.Count(); i++)
+                    {
+                        foreach (var item in db.tbReceipts)
+                        {
+                            if (item.ReceiptAmount != null)
+                            {
+                                paid = paid + (float)item.ReceiptAmount;
+                            }
+                        }
+                    }
+                    <span class="info-box-number">RM @String.Format("{0:0.00}", paid)</span>
+                }
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-hourglass-half"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Payment (Pending Approval)</span>
+                @if (Session["User_Id"] != null)
+                {
+                    int inProgress = 0;
+
+                    foreach (var stu in db.tbReceipts.Where(x => x.ReceiptStatus == 1))
+                    {
+                        inProgress = inProgress + 1;
+                    }
+                    <span class="info-box-number">@inProgress</span>
+                }
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<!--Financial Evaluation-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Financial Evaluation</h5>
+
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="text-center">
+                            <strong>Financial Evaluation: 1 Jan, @DateTime.Now.Year.ToString() - 31 Dec, @DateTime.Now.Year.ToString()</strong>
+                        </p>
+
+                        <div class="chart">
+                            <!-- Sales Chart Canvas -->
+                            <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
+                        </div>
+                        <!-- /.chart-responsive -->
+                    </div>
+
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- ./card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block border-right">
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+
+                                foreach (var stu in db.tbParents)
+                                {
+                                    count = count + 1;
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">PARENTS</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block border-right">
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+
+                                foreach (var stu in db.tbStudents.Where(x => x.StudentCat == 1))
+                                {
+                                    count = count + 1;
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">PRIMARY STUDENT</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block">
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+
+                                foreach (var stu in db.tbStudents.Where(x => x.StudentCat == 2))
+                                {
+                                    count = count + 1;
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">SECONDARY STUDENT</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.card-footer -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<!--Summary-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Summary</h5>
+
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p class="text-center">
+                            <strong>Primary Subjects Subscription Overview</strong>
+                        </p>
+                        @if (Session["User_Id"] != null)
+                        {
+                            int primarySubCount = primaryList.Count();
+                            int primaryStuCount = stuList.Where(x => x.StudentCat == 1).Count();
+                            int regCount = db.tbRegistrations.Count(x => x.tbStudent.StudentCat == 1);
+                            int count = 0;
+                            double percent = 0;
+                            string name = "";
+
+                            <div class="progress-group">
+                                @foreach (var sub in db.tbSubjects.Where(x => x.tbCategory.CatID == 1))
+                                {
+                                    name = sub.SubjectNames;
+                                    string code = sub.SubjectCodes;
+                                    count = 0;
+
+                                    <span class="progress-text">@name</span>
+
+                                    foreach (var reg in db.tbRegistrations.Where(x => x.tbStudent.StudentCat == 1 && x.SubjectCode == code))
+                                    {
+                                        count = count + 1;
+                                    }
+                                    percent = Convert.ToDouble(count) / Convert.ToDouble(primaryStuCount) * 100;
+
+                                    <span class="float-right"><b>@Math.Round(percent, 2)</b>%</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-maroon" style="width: @percent%"></div>
+                                    </div>
+
+                                }
+                            </div>
+
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-center">
+                            <strong>Secondary Subjects Subscription Overview</strong>
+                        </p>
+                        @if (Session["User_Id"] != null)
+                        {
+                            int primarySubCount = primaryList.Count();
+                            int primaryStuCount = stuList.Where(x => x.StudentCat == 2).Count();
+                            int regCount = db.tbRegistrations.Count(x => x.tbStudent.StudentCat == 2);
+                            int count = 0;
+                            double percent = 0;
+                            string name = "";
+
+                            <div class="progress-group">
+                                @foreach (var sub in db.tbSubjects.Where(x => x.tbCategory.CatID == 2))
+                                {
+                                    name = sub.SubjectNames;
+                                    string code = sub.SubjectCodes;
+                                    count = 0;
+
+                                    <span class="progress-text">@name</span>
+
+                                    foreach (var reg in db.tbRegistrations.Where(x => x.tbStudent.StudentCat == 2 && x.SubjectCode == code))
+                                    {
+                                        count = count + 1;
+                                    }
+                                    percent = Convert.ToDouble(count) / Convert.ToDouble(primaryStuCount) * 100;
+
+                                    <span class="float-right"><b>@Math.Round(percent, 2)</b>%</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-lightblue" style="width: @percent%"></div>
+                                    </div>
+
+                                }
+                            </div>
+
+                        }
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <p class="text-center">
+                            <strong>Service Subscription Overview</strong>
+                        </p>
+
+                        <div class="progress-group">
+                            <span class="progress-text">Meal</span>
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+                                int total = 0;
+                                double percent = 25;
+
+                                for (int i = 0; i <= stuList.Count() + 1; i++)
+                                {
+                                    foreach (var item in db.tbStudents)
+                                    {
+                                        if (item.mealStat != 0)
+                                        {
+                                            count = count + 1;
+                                        }
+                                    }
+                                    total = total + 1;
+                                    i++;
+                                }
+                                percent = Convert.ToDouble(count) / Convert.ToDouble(total) * 100;
+                                <span class="float-right"><b>@Math.Round(percent, 2)</b>%</span>
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-primary" style="width: @percent%"></div>
+                                </div>
+                            }
+
+                        </div>
+                        <!-- /.progress-group -->
+
+                        <div class="progress-group">
+                            <span class="progress-text">Childcare</span>
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+                                int total = 0;
+                                double percent = 25;
+
+                                for (int i = 0; i <= stuList.Count() + 1; i++)
+                                {
+                                    foreach (var item in db.tbStudents)
+                                    {
+                                        if (item.ccStat != 0)
+                                        {
+                                            count = count + 1;
+                                        }
+                                    }
+                                    total = total + 1;
+                                    i++;
+                                }
+                                percent = Convert.ToDouble(count) / Convert.ToDouble(total) * 100;
+                                <span class="float-right"><b>@Math.Round(percent, 2)</b>%</span>
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-secondary" style="width: @percent%"></div>
+                                </div>
+                            }
+
+                        </div>
+
+                        <!-- /.progress-group -->
+                        <div class="progress-group">
+                            <span class="progress-text">Transport</span>
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+                                int total = 0;
+                                double percent = 25;
+
+                                for (int i = 0; i <= stuList.Count() + 1; i++)
+                                {
+                                    foreach (var item in db.tbStudents)
+                                    {
+                                        if (item.transDPW != 0)
+                                        {
+                                            count = count + 1;
+                                        }
+                                    }
+                                    total = total + 1;
+                                    i++;
+                                }
+                                percent = Convert.ToDouble(count) / Convert.ToDouble(total) * 100;
+                                <span class="float-right"><b>@Math.Round(percent, 2)</b>%</span>
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-fuchsia" style="width: @percent%"></div>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- /.progress-group -->
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- ./card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block border-right">
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+
+                                foreach (var stu in db.tbParents)
+                                {
+                                    count = count + 1;
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">PARENTS</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block border-right">
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+
+                                foreach (var stu in db.tbStudents.Where(x => x.StudentCat == 1))
+                                {
+                                    count = count + 1;
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">PRIMARY STUDENT</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-4 col-6">
+                        <div class="description-block">
+                            @if (Session["User_Id"] != null)
+                            {
+                                int count = 0;
+
+                                foreach (var stu in db.tbStudents.Where(x => x.StudentCat == 2))
+                                {
+                                    count = count + 1;
+                                }
+                                <h5 class="description-header">@count</h5>
+                            }
+                            <span class="description-text">SECONDARY STUDENT</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.card-footer -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+
+
+
+
+<script type="text/javascript">
+    $(window).on('load', function () {
+        /* ChartJS
+         * -------
+         * Here we will create a few charts using ChartJS
+         */
+
+        //-----------------------
+        // - MONTHLY SALES CHART -
+        //-----------------------
+
+        // Get context with jQuery - using jQuery's .get() method.
+        var salesChartCanvas = $('#salesChart').get(0).getContext('2d')
+
+        var salesChartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [
+                {
+                    label: 'Revenue',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: [@jan, @feb, @mac, @apr, @may, @june, @july, @aug, @sept, @oct, @nov, @dis]
+                },
+                {
+                    label: 'Outstanding',
+                    backgroundColor: 'rgba(210, 214, 222, 1)',
+                    borderColor: 'rgba(210, 214, 222, 1)',
+                    pointRadius: false,
+                    pointColor: 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor: '#c1c7d1',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data: [@out_jan, @out_feb, @out_mac, @out_apr, @out_may, @out_june, @out_july, @out_aug, @out_sept, @out_oct, @out_nov, @out_dis]
+                }
+            ]
+        }
+
+        var salesChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
+                display: true
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }]
+            }
+        }
+
+        // This will get the first returned node in the jQuery collection.
+        // eslint-disable-next-line no-unused-vars
+        var salesChart = new Chart(salesChartCanvas, {
+            type: 'line',
+            data: salesChartData,
+            options: salesChartOptions
+        }
+        )
+
+        //---------------------------
+        // - END MONTHLY SALES CHART -
+        //---------------------------
+
+        //-------------
+        // - PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+        var pieData = {
+            labels: [
+                'Chrome',
+                'IE',
+                'FireFox',
+                'Safari',
+                'Opera',
+                'Navigator'
+            ],
+            datasets: [
+                {
+                    data: [700, 500, 400, 600, 300, 100],
+                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+                }
+            ]
+        }
+        var pieOptions = {
+            legend: {
+                display: false
+            }
+        }
+        // Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        // eslint-disable-next-line no-unused-vars
+        var pieChart = new Chart(pieChartCanvas, {
+            type: 'doughnut',
+            data: pieData,
+            options: pieOptions
+        })
+
+        //-----------------
+        // - END PIE CHART -
+        //-----------------
+
+        /* jVector Maps
+         * ------------
+         * Create a world map with markers
+         */
+        $('#world-map-markers').mapael({
+            map: {
+                name: 'usa_states',
+                zoom: {
+                    enabled: true,
+                    maxLevel: 10
+                }
+            }
+        })
+
+        // $('#world-map-markers').vectorMap({
+        //   map              : 'world_en',
+        //   normalizeFunction: 'polynomial',
+        //   hoverOpacity     : 0.7,
+        //   hoverColor       : false,
+        //   backgroundColor  : 'transparent',
+        //   regionStyle      : {
+        //     initial      : {
+        //       fill            : 'rgba(210, 214, 222, 1)',
+        //       'fill-opacity'  : 1,
+        //       stroke          : 'none',
+        //       'stroke-width'  : 0,
+        //       'stroke-opacity': 1
+        //     },
+        //     hover        : {
+        //       'fill-opacity': 0.7,
+        //       cursor        : 'pointer'
+        //     },
+        //     selected     : {
+        //       fill: 'yellow'
+        //     },
+        //     selectedHover: {}
+        //   },
+        //   markerStyle      : {
+        //     initial: {
+        //       fill  : '#00a65a',
+        //       stroke: '#111'
+        //     }
+        //   },
+        //   markers          : [
+        //     {
+        //       latLng: [41.90, 12.45],
+        //       name  : 'Vatican City'
+        //     },
+        //     {
+        //       latLng: [43.73, 7.41],
+        //       name  : 'Monaco'
+        //     },
+        //     {
+        //       latLng: [-0.52, 166.93],
+        //       name  : 'Nauru'
+        //     },
+        //     {
+        //       latLng: [-8.51, 179.21],
+        //       name  : 'Tuvalu'
+        //     },
+        //     {
+        //       latLng: [43.93, 12.46],
+        //       name  : 'San Marino'
+        //     },
+        //     {
+        //       latLng: [47.14, 9.52],
+        //       name  : 'Liechtenstein'
+        //     },
+        //     {
+        //       latLng: [7.11, 171.06],
+        //       name  : 'Marshall Islands'
+        //     },
+        //     {
+        //       latLng: [17.3, -62.73],
+        //       name  : 'Saint Kitts and Nevis'
+        //     },
+        //     {
+        //       latLng: [3.2, 73.22],
+        //       name  : 'Maldives'
+        //     },
+        //     {
+        //       latLng: [35.88, 14.5],
+        //       name  : 'Malta'
+        //     },
+        //     {
+        //       latLng: [12.05, -61.75],
+        //       name  : 'Grenada'
+        //     },
+        //     {
+        //       latLng: [13.16, -61.23],
+        //       name  : 'Saint Vincent and the Grenadines'
+        //     },
+        //     {
+        //       latLng: [13.16, -59.55],
+        //       name  : 'Barbados'
+        //     },
+        //     {
+        //       latLng: [17.11, -61.85],
+        //       name  : 'Antigua and Barbuda'
+        //     },
+        //     {
+        //       latLng: [-4.61, 55.45],
+        //       name  : 'Seychelles'
+        //     },
+        //     {
+        //       latLng: [7.35, 134.46],
+        //       name  : 'Palau'
+        //     },
+        //     {
+        //       latLng: [42.5, 1.51],
+        //       name  : 'Andorra'
+        //     },
+        //     {
+        //       latLng: [14.01, -60.98],
+        //       name  : 'Saint Lucia'
+        //     },
+        //     {
+        //       latLng: [6.91, 158.18],
+        //       name  : 'Federated States of Micronesia'
+        //     },
+        //     {
+        //       latLng: [1.3, 103.8],
+        //       name  : 'Singapore'
+        //     },
+        //     {
+        //       latLng: [1.46, 173.03],
+        //       name  : 'Kiribati'
+        //     },
+        //     {
+        //       latLng: [-21.13, -175.2],
+        //       name  : 'Tonga'
+        //     },
+        //     {
+        //       latLng: [15.3, -61.38],
+        //       name  : 'Dominica'
+        //     },
+        //     {
+        //       latLng: [-20.2, 57.5],
+        //       name  : 'Mauritius'
+        //     },
+        //     {
+        //       latLng: [26.02, 50.55],
+        //       name  : 'Bahrain'
+        //     },
+        //     {
+        //       latLng: [0.33, 6.73],
+        //       name  : 'São Tomé and Príncipe'
+        //     }
+        //   ]
+        // })
+    });
+
+    /*$(function () {
+        'use strict'
+
+
+    })*/
+
+// lgtm [js/unused-local-variable]
+
+
+</script>
